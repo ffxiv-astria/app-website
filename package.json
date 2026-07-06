@@ -8,10 +8,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:sh": "bash ./scripts/deploy-dist.sh",
+    "deploy:dist": "bash ./scripts/deploy-dist.sh",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.0.6"
+    "astro": "^7.0.6",
+    "html-to-image": "^1.11.13"
   }
 }

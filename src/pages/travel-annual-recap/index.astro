@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="正在跳转 - Astria天穹">
+	<meta http-equiv="refresh" content="0; url=/" />
+	<main class="redirect">
+		<p>正在返回 Astria天穹。</p>
+	</main>
+</Layout>
+
+<style>
+	.redirect {
+		display: grid;
+		min-height: 100svh;
+		place-items: center;
+		padding: 24px;
+		color: var(--soft);
+	}
+
+</style>

@@ -1,0 +1,91 @@
+---
+const { active = 'home' } = Astro.props;
+---
+
+<header class="site-header">
+	<a class="brand" href="/" aria-label="Astria天穹 首页">
+		<img class="brand-mark" src="/brand/astria-app-icon.png" alt="" width="28" height="28" />
+		<span>Astria天穹</span>
+	</a>
+	<nav aria-label="主要导航">
+		<a class:list={[active === 'home' && 'active']} href="/">首页</a>
+		<a href="/#download">下载</a>
+		<a href="/#features">功能</a>
+		<a class:list={[active === 'legal' && 'active']} href="/legal/privacy/">隐私政策</a>
+	</nav>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+		width: min(1160px, calc(100% - 36px));
+		margin: 0 auto;
+		padding: 18px 0 10px;
+		backdrop-filter: blur(14px);
+	}
+
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 18px;
+		font-weight: 750;
+		letter-spacing: 0;
+	}
+
+	.brand-mark {
+		width: 28px;
+		height: 28px;
+		border-radius: 8px;
+		object-fit: cover;
+		box-shadow: 0 0 26px rgba(98, 230, 221, 0.22);
+	}
+
+	nav {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 5px;
+		border: 1px solid var(--line);
+		border-radius: 8px;
+		background: rgba(10, 13, 21, 0.68);
+	}
+
+	nav a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 34px;
+		padding: 0 12px;
+		border-radius: 6px;
+		color: var(--muted);
+		font-size: 14px;
+		font-weight: 650;
+		white-space: nowrap;
+	}
+
+	nav a:hover,
+	nav a.active {
+		background: rgba(255, 255, 255, 0.07);
+		color: var(--text);
+	}
+
+	@media (max-width: 680px) {
+		.site-header {
+			align-items: flex-start;
+			flex-direction: column;
+			width: min(100% - 28px, 1160px);
+		}
+
+		nav {
+			width: 100%;
+			overflow-x: auto;
+			justify-content: flex-start;
+		}
+	}
+</style>

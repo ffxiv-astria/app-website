@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "source": "app",
+  "brand": "Astria天穹",
+  "year": "2026",
+  "rangeText": "2025.07.06 20:00 - 2026.07.06 20:00",
+  "lastSyncedAt": "2026.07.06 20:12",
+  "isFullHistorySynced": true,
+  "title": "过去 365 天的超域旅行回顾",
+  "privacyNote": "",
+  "summary": {
+    "totalOrders": 37,
+    "departureAttempts": 20,
+    "successfulDepartures": 18,
+    "completedOrders": 32,
+    "activeReturns": 12,
+    "autoReturns": 5,
+    "stillAway": 1,
+    "executingOrders": 0,
+    "failedOrders": 5,
+    "activeDays": 27,
+    "activeMonths": 8,
+    "characterCount": 4,
+    "subAccountCount": 2,
+    "sourceServerCount": 3,
+    "targetServerCount": 6,
+    "targetAreaCount": 3,
+    "precheckFailures": 2,
+    "topDestination": "红玉海",
+    "topDestinationShare": "72%",
+    "topArea": "陆行鸟",
+    "topRoute": "神意之地 -> 红玉海",
+    "homeServer": "神意之地",
+    "chocoboRushHits": 3,
+    "longestQuietDays": 46,
+    "annualTitle": "以太通勤族"
+  },
+  "shareCard": {
+    "title": "以太通勤族",
+    "copy": "过去 365 天启程远行 18 次，最常去红玉海。水晶认得你的手势，也知道你这个人有点固定路线依赖。",
+    "highlights": ["启程远行 18", "平安归家 12", "鸟区硬挤 3", "按钮复读机"],
+    "variant": "chocobo-rush"
+  },
+  "emptyState": {
+    "title": "今年还没有超域旅行记录",
+    "body": "同步历史后，旅行簿会自动补上。旅行簿空着，也许只是水晶还没等到你。",
+    "actionLabel": "稍后再看"
+  },
+  "slides": [
+    {
+      "id": "zero-page",
+      "kind": "zero-page",
+      "kicker": "第 0 页",
+      "title": "你的跨区故事，比超域旅行本身还早",
+      "body": "那年你从神意之地 0 元落户红玉海。这才是跨区故事真正的第 0 页。",
+      "optional": true,
+      "priority": 0,
+      "triggerReason": "检测到 2019 免费转服历史记录",
+      "emptyBehavior": "hide",
+      "metrics": [
+        { "label": "历史彩蛋", "value": "2019", "note": "免费转服记录", "tone": "gold" },
+        { "label": "迁出", "value": "神意之地", "note": "历史来源服", "tone": "teal" },
+        { "label": "落户", "value": "红玉海", "note": "历史目标服", "tone": "green" }
+      ],
+      "footnote": ""
+    },
+    {
+      "id": "cover",
+      "kind": "cover",
+      "kicker": "封面",
+      "title": "过去 365 天，你把水晶拨亮了 37 次",
+      "body": "其中 18 次成功启程远行。说是旅行，其实有点像给水晶刷熟练度。",
+      "optional": false,
+      "priority": 10,
+      "metrics": [
+        { "label": "年度订单", "value": "37", "note": "含出发、返程与异常", "tone": "teal" },
+        { "label": "启程远行", "value": "18", "note": "成功出发", "tone": "gold" },
+        { "label": "统计区间", "value": "365 天", "note": "滚动窗口", "tone": "green" }
+      ]
+    },
+    {
+      "id": "chocobo-rush",
+      "kind": "chocobo-rush",
+      "kicker": "鸟区晚高峰",
+      "title": "你有 3 次在鸟区晚高峰硬挤进去",
+      "body": "晚高峰还点鸟区，你是真的不怕系统给你脸色看。手速和运气至少在线一个。",
+      "optional": true,
+      "priority": 120,
+      "triggerReason": "鸟区 18:00-21:00 成功出发次数大于 0",
+      "emptyBehavior": "hide",
+      "metrics": [
+        { "label": "晚高峰突围", "value": "3", "note": "18:00-21:00", "tone": "gold" },
+        { "label": "目标大区", "value": "陆行鸟", "note": "鸟区语境", "tone": "teal" },
+        { "label": "称号触发", "value": "鸟区突围者", "note": ">= 1 次", "tone": "green" }
+      ]
+    },
+    {
+      "id": "share",
+      "kind": "share",
+      "kicker": "分享总结",
+      "title": "把这张旅行票根留给今年",
+      "body": "把今年的称号、路线和一点点不太客气的实话，压进这张旅行票根里。",
+      "optional": false,
+      "priority": 290,
+      "metrics": [
+        { "label": "年度称号", "value": "以太通勤族", "note": "今年主头衔", "tone": "teal" },
+        { "label": "最常去", "value": "红玉海", "note": "年度目的地", "tone": "gold" }
+      ]
+    }
+  ]
+}

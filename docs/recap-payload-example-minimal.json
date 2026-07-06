@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "source": "app",
+  "brand": "Astria天穹",
+  "year": "2026",
+  "rangeText": "2025.07.06 20:00 - 2026.07.06 20:00",
+  "lastSyncedAt": "2026.07.06 20:12",
+  "isFullHistorySynced": true,
+  "title": "过去 365 天的超域旅行回顾",
+  "privacyNote": "",
+  "summary": {
+    "successfulDepartures": 18,
+    "activeReturns": 12,
+    "autoReturns": 5,
+    "stillAway": 1,
+    "activeDays": 27,
+    "characterCount": 4,
+    "precheckFailures": 2,
+    "topDestination": "红玉海",
+    "topRoute": "神意之地 -> 红玉海",
+    "chocoboRushHits": 3,
+    "longestQuietDays": 46,
+    "annualTitle": "以太通勤族"
+  },
+  "shareCard": {
+    "title": "以太通勤族",
+    "copy": "过去 365 天启程远行 18 次，最常去红玉海。水晶认得你的手势，也知道你这个人有点固定路线依赖。",
+    "highlights": ["启程远行 18", "平安归家 12", "鸟区硬挤 3", "按钮复读机"],
+    "variant": "standard"
+  },
+  "emptyState": {
+    "title": "今年还没有超域旅行记录",
+    "body": "同步历史后，旅行簿会自动补上。旅行簿空着，也许只是水晶还没等到你。",
+    "actionLabel": "稍后再看"
+  },
+  "slides": [
+    {
+      "id": "cover",
+      "kind": "cover",
+      "kicker": "封面",
+      "title": "过去 365 天，你把水晶拨亮了 37 次",
+      "body": "其中 18 次成功启程远行。说是旅行，其实有点像给水晶刷熟练度。",
+      "optional": false,
+      "priority": 10,
+      "metrics": [
+        { "label": "年度订单", "value": "37", "note": "含出发、返程与异常", "tone": "teal" },
+        { "label": "启程远行", "value": "18", "note": "成功出发", "tone": "gold" },
+        { "label": "统计区间", "value": "365 天", "note": "滚动窗口", "tone": "green" }
+      ]
+    },
+    {
+      "id": "overview",
+      "kind": "overview",
+      "kicker": "年度总览",
+      "title": "这一年，你把 4 个角色送上以太航线",
+      "body": "27 个有记录的日子、8 个有记录的月份。别装路过了，这已经不是偶然。",
+      "optional": false,
+      "priority": 20,
+      "metrics": [
+        { "label": "涉及角色", "value": "4", "note": "今年被点名", "tone": "teal" },
+        { "label": "活跃天数", "value": "27", "note": "留下跨区痕迹", "tone": "gold" },
+        { "label": "预检失败", "value": "2", "note": "倒在预检门口", "tone": "rose" }
+      ]
+    },
+    {
+      "id": "route",
+      "kind": "route-map",
+      "kicker": "年度航线",
+      "title": "神意之地 -> 红玉海，是今年最熟的路",
+      "body": "世界很大，但你今年像开了固定导航。水晶看到你，可能已经懒得问目的地了。",
+      "optional": false,
+      "priority": 50,
+      "metrics": [
+        { "label": "年度航线", "value": "神意之地 -> 红玉海", "note": "重复 13 次", "tone": "gold" },
+        { "label": "家服务器", "value": "神意之地", "note": "按历史众数推导", "tone": "green" }
+      ]
+    },
+    {
+      "id": "share",
+      "kind": "share",
+      "kicker": "分享总结",
+      "title": "把这张旅行票根留给今年",
+      "body": "把今年的称号、路线和一点点不太客气的实话，压进这张旅行票根里。",
+      "optional": false,
+      "priority": 290,
+      "metrics": [
+        { "label": "年度称号", "value": "以太通勤族", "note": "今年主头衔", "tone": "teal" },
+        { "label": "最常去", "value": "红玉海", "note": "年度目的地", "tone": "gold" }
+      ]
+    }
+  ]
+}

@@ -1,12 +1,25 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'Astria天穹',
+	description = 'Astria天穹公共服务。',
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
 	</head>
 	<body>
 		<slot />
@@ -14,10 +27,57 @@
 </html>
 
 <style>
+	:root {
+		color-scheme: dark;
+		--bg: #070910;
+		--bg-2: #0e121c;
+		--surface: rgba(20, 25, 36, 0.82);
+		--surface-strong: rgba(30, 37, 52, 0.94);
+		--line: rgba(184, 203, 223, 0.18);
+		--line-strong: rgba(184, 203, 223, 0.3);
+		--text: #f5f7fb;
+		--muted: #aeb8c8;
+		--soft: #d6dee9;
+		--teal: #62e6dd;
+		--violet: #9f8cff;
+		--gold: #e7bd62;
+		--rose: #ed7c92;
+		--ok: #8ce3a1;
+		--shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+		font-family:
+			Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+			'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+	}
+
 	html,
 	body {
 		margin: 0;
 		width: 100%;
-		height: 100%;
+		min-height: 100%;
+		background:
+			radial-gradient(circle at 17% 12%, rgba(98, 230, 221, 0.16), transparent 26rem),
+			radial-gradient(circle at 86% 2%, rgba(231, 189, 98, 0.12), transparent 24rem),
+			linear-gradient(180deg, var(--bg), #0b0f18 46%, #070910);
+		color: var(--text);
+	}
+
+	:global(*) {
+		box-sizing: border-box;
+	}
+
+	:global(a) {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	:global(button),
+	:global(input),
+	:global(select),
+	:global(textarea) {
+		font: inherit;
+	}
+
+	:global(::selection) {
+		background: rgba(98, 230, 221, 0.28);
 	}
 </style>

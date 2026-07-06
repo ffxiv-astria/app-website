@@ -1,11 +1,282 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import CrystalScene from '../components/CrystalScene.astro';
+import SiteHeader from '../components/SiteHeader.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+	title="Astria天穹 - 公共服务"
+	description="Astria天穹官网首页、下载入口、功能介绍与公共服务页面。"
+>
+	<SiteHeader active="home" />
+	<main>
+		<section class="hero">
+			<div class="hero-copy">
+				<h1>Astria天穹</h1>
+				<p>
+					面向国服玩家的工具型 App。这里是官网首页、下载入口和公共服务页。
+				</p>
+				<div class="hero-actions">
+					<a class="primary" href="#download">前往下载</a>
+				</div>
+			</div>
+			<div class="hero-visual">
+				<CrystalScene />
+			</div>
+		</section>
+
+		<section class="download" id="download" aria-labelledby="download-title">
+			<div class="section-copy">
+				<h2 id="download-title">下载 Astria天穹</h2>
+				<p>先预留正式官网下载入口。后续可接 App Store、TestFlight 或平台分发页。</p>
+			</div>
+			<div class="download-panel">
+				<div>
+					<strong>iPhone / iPad / Mac</strong>
+					<span>Apple 平台客户端</span>
+				</div>
+				<a href="#" aria-disabled="true">即将开放</a>
+			</div>
+		</section>
+
+		<section class="services" id="features" aria-labelledby="features-title">
+			<div class="section-copy">
+				<h2 id="features-title">功能介绍</h2>
+				<p>先把稳定入口搭好，后续官网信息、协议、注销和更多功能页可以沿同一套视觉系统扩展。</p>
+			</div>
+			<div class="service-list">
+				<a href="/legal/privacy/">
+					<strong>隐私政策</strong>
+					<span>统一承载后续正式政策文本</span>
+				</a>
+				<a href="/account-deletion/">
+					<strong>账号注销</strong>
+					<span>面向 App 审核与用户自助流程</span>
+				</a>
+			</div>
+		</section>
+	</main>
 </Layout>
+
+<style>
+	main {
+		position: relative;
+		overflow: hidden;
+	}
+
+	main::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background-image:
+			radial-gradient(circle, rgba(255, 255, 255, 0.42) 0 1px, transparent 1.4px),
+			linear-gradient(120deg, transparent 0 42%, rgba(98, 230, 221, 0.08) 42.2% 42.5%, transparent 42.7%);
+		background-size: 96px 96px, 100% 100%;
+		opacity: 0.45;
+	}
+
+	.hero,
+	.download,
+	.services {
+		width: min(1160px, calc(100% - 36px));
+		margin: 0 auto;
+	}
+
+	.download {
+		display: grid;
+		grid-template-columns: minmax(260px, 0.58fr) minmax(0, 1fr);
+		gap: 28px;
+		align-items: center;
+		padding: 70px 0;
+		border-top: 1px solid var(--line);
+	}
+
+	.download-panel {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		padding: 22px;
+		border: 1px solid var(--line-strong);
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.055);
+		box-shadow: var(--shadow);
+	}
+
+	.download-panel strong,
+	.download-panel span {
+		display: block;
+	}
+
+	.download-panel strong {
+		font-size: 22px;
+	}
+
+	.download-panel span {
+		margin-top: 8px;
+		color: var(--muted);
+		font-size: 14px;
+	}
+
+	.download-panel a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 42px;
+		padding: 0 16px;
+		border: 1px solid rgba(231, 189, 98, 0.38);
+		border-radius: 8px;
+		color: var(--gold);
+		font-size: 14px;
+		font-weight: 760;
+		white-space: nowrap;
+	}
+
+	.hero {
+		display: grid;
+		grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1fr);
+		align-items: center;
+		gap: 44px;
+		min-height: calc(100svh - 68px);
+		padding: 54px 0 72px;
+	}
+
+	.hero-copy h1 {
+		margin: 0;
+		font-size: clamp(48px, 7vw, 86px);
+		line-height: 0.94;
+		letter-spacing: 0;
+		white-space: nowrap;
+	}
+
+	.hero-copy p {
+		max-width: 620px;
+		margin: 28px 0 0;
+		color: var(--soft);
+		font-size: clamp(17px, 2vw, 21px);
+		line-height: 1.8;
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		margin-top: 34px;
+	}
+
+	.primary,
+	.secondary {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 46px;
+		padding: 0 18px;
+		border-radius: 8px;
+		font-size: 15px;
+		font-weight: 760;
+	}
+
+	.primary {
+		background: linear-gradient(135deg, var(--teal), #b3fbf3);
+		color: #071014;
+		box-shadow: 0 18px 44px rgba(98, 230, 221, 0.18);
+	}
+
+	.secondary {
+		border: 1px solid var(--line-strong);
+		background: rgba(255, 255, 255, 0.05);
+		color: var(--text);
+	}
+
+	.section-copy h2 {
+		margin: 0;
+		font-size: clamp(30px, 4.2vw, 56px);
+		line-height: 1.08;
+		letter-spacing: 0;
+	}
+
+	.section-copy p {
+		margin: 16px 0 0;
+		color: var(--muted);
+		font-size: 16px;
+		line-height: 1.8;
+	}
+
+	.services {
+		padding: 72px 0 100px;
+		border-top: 1px solid var(--line);
+	}
+
+	.service-list {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 12px;
+		margin-top: 28px;
+	}
+
+	.service-list a {
+		min-height: 132px;
+		padding: 18px;
+		border: 1px solid var(--line);
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.045);
+	}
+
+	.service-list strong,
+	.service-list span {
+		display: block;
+	}
+
+	.service-list strong {
+		font-size: 18px;
+	}
+
+	.service-list span {
+		margin-top: 12px;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 920px) {
+		.hero,
+		.download {
+			grid-template-columns: 1fr;
+		}
+
+		.hero {
+			min-height: 0;
+			padding-top: 38px;
+		}
+
+		.service-list {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 580px) {
+		.hero,
+		.download,
+		.services {
+			width: min(100% - 28px, 1160px);
+		}
+
+		.hero-actions,
+		.primary,
+		.secondary,
+		.download-panel,
+		.download-panel a {
+			width: 100%;
+		}
+
+		.download-panel {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+
+		.service-list {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astria.cxmeow.top/schemas/recap-payload.schema.json",
+  "title": "Astria Travel Recap Payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "source",
+    "brand",
+    "year",
+    "rangeText",
+    "lastSyncedAt",
+    "isFullHistorySynced",
+    "title",
+    "privacyNote",
+    "summary",
+    "shareCard",
+    "emptyState",
+    "slides"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "source": { "enum": ["demo", "app"] },
+    "brand": { "type": "string", "minLength": 1 },
+    "year": { "type": "string", "minLength": 1 },
+    "rangeText": { "type": "string", "minLength": 1 },
+    "lastSyncedAt": { "type": "string", "minLength": 1 },
+    "isFullHistorySynced": { "type": "boolean" },
+    "title": { "type": "string", "minLength": 1 },
+    "privacyNote": { "type": "string" },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "successfulDepartures": { "type": "number" },
+        "activeReturns": { "type": "number" },
+        "autoReturns": { "type": "number" },
+        "stillAway": { "type": "number" },
+        "activeDays": { "type": "number" },
+        "characterCount": { "type": "number" },
+        "precheckFailures": { "type": "number" },
+        "topDestination": { "type": "string" },
+        "topRoute": { "type": "string" },
+        "chocoboRushHits": { "type": "number" },
+        "longestQuietDays": { "type": "number" },
+        "annualTitle": { "type": "string" }
+      }
+    },
+    "shareCard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "copy", "highlights"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "copy": { "type": "string", "minLength": 1 },
+        "highlights": {
+          "type": "array",
+          "maxItems": 6,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "variant": {
+          "enum": ["standard", "chocobo-rush", "zero-page", "gatekeeper", "quiet-window"]
+        }
+      }
+    },
+    "emptyState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "body", "actionLabel"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "body": { "type": "string", "minLength": 1 },
+        "actionLabel": { "type": "string", "minLength": 1 }
+      }
+    },
+    "slides": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "title", "kicker", "body", "metrics"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": {
+            "enum": [
+              "zero-page",
+              "cover",
+              "overview",
+              "first-aether",
+              "last-aether",
+              "route-map",
+              "destination",
+              "character",
+              "time",
+              "late-night",
+              "chocobo-rush",
+              "quiet-window",
+              "stay",
+              "return",
+              "official-hints",
+              "button-habit",
+              "roast",
+              "easter-echo",
+              "current-status",
+              "comparison",
+              "data-coverage",
+              "debug-check",
+              "title-wall",
+              "share"
+            ]
+          },
+          "title": { "type": "string", "minLength": 1 },
+          "kicker": { "type": "string", "minLength": 1 },
+          "body": { "type": "string", "minLength": 1 },
+          "metrics": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["label", "value", "note"],
+              "properties": {
+                "label": { "type": "string", "minLength": 1 },
+                "value": { "type": "string", "minLength": 1 },
+                "note": { "type": "string", "minLength": 1 },
+                "tone": { "enum": ["teal", "gold", "rose", "green", "violet"] }
+              }
+            }
+          },
+          "footnote": { "type": "string" },
+          "chartLabels": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "chartValues": {
+            "type": "array",
+            "items": { "type": "number", "minimum": 0 }
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "optional": { "type": "boolean" },
+          "priority": { "type": "number" },
+          "triggerReason": { "type": "string" },
+          "emptyBehavior": { "enum": ["hide", "show-empty", "show-muted"] }
+        }
+      }
+    }
+  }
+}

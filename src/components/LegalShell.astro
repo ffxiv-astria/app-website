@@ -1,0 +1,108 @@
+---
+import SiteHeader from './SiteHeader.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	items: string[];
+	actionLabel?: string;
+	actionHref?: string;
+}
+
+const { title, description, items, actionLabel, actionHref } = Astro.props;
+---
+
+<SiteHeader active="legal" />
+<main class="legal-page">
+	<section class="legal-hero">
+		<h1>{title}</h1>
+		<p>{description}</p>
+		{actionLabel && actionHref && <a href={actionHref}>{actionLabel}</a>}
+	</section>
+	<section class="legal-content" aria-label={`${title}内容`}>
+		{
+			items.map((item, index) => (
+				<article>
+					<span>{String(index + 1).padStart(2, '0')}</span>
+					<p>{item}</p>
+				</article>
+			))
+		}
+	</section>
+</main>
+
+<style>
+	.legal-page {
+		width: min(980px, calc(100% - 36px));
+		margin: 0 auto;
+		padding: 72px 0 100px;
+	}
+
+	.legal-hero h1 {
+		margin: 0;
+		font-size: clamp(42px, 7vw, 76px);
+		line-height: 1;
+	}
+
+	.legal-hero p {
+		max-width: 760px;
+		margin: 22px 0 0;
+		color: var(--soft);
+		font-size: 18px;
+		line-height: 1.8;
+	}
+
+	.legal-hero a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
+		margin-top: 28px;
+		padding: 0 16px;
+		border-radius: 8px;
+		background: linear-gradient(135deg, var(--teal), #b8fbf4);
+		color: #071014;
+		font-size: 15px;
+		font-weight: 760;
+	}
+
+	.legal-content {
+		display: grid;
+		gap: 12px;
+		margin-top: 42px;
+	}
+
+	.legal-content article {
+		display: grid;
+		grid-template-columns: 48px 1fr;
+		gap: 18px;
+		padding: 20px;
+		border: 1px solid var(--line);
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.045);
+	}
+
+	.legal-content span {
+		color: var(--gold);
+		font-size: 13px;
+		font-weight: 800;
+	}
+
+	.legal-content p {
+		margin: 0;
+		color: var(--soft);
+		font-size: 15px;
+		line-height: 1.75;
+	}
+
+	@media (max-width: 580px) {
+		.legal-page {
+			width: min(100% - 28px, 980px);
+			padding-top: 46px;
+		}
+
+		.legal-content article {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,141 @@
+---
+import type { RecapPayload } from '../data/recapPayload';
+
+interface Props {
+	payload: RecapPayload;
+	embed?: boolean;
+	visible?: boolean;
+}
+
+const { payload, embed = false, visible = false } = Astro.props;
+const initialTitle = embed ? '旅行簿整理中' : payload.emptyState.title;
+const initialBody = embed ? 'Astria天穹正在等待 App 送来这一年的超域旅行记录。水晶已经点亮，请稍等。' : payload.emptyState.body;
+const initialAction = embed ? '关闭' : payload.emptyState.actionLabel;
+---
+
+<section class:list={['empty-state', embed && 'embed-empty']} data-empty-state hidden={!visible}>
+	<div class="brand-row">
+		<strong><img src="/brand/astria-app-icon.png" alt="" width="28" height="28" /><span>{payload.brand}</span></strong>
+		<span>{payload.year}</span>
+	</div>
+	<h1 data-empty-title>{initialTitle}</h1>
+	<p data-empty-body>{initialBody}</p>
+		<button class="secondary" type="button" data-empty-action>{initialAction}</button>
+</section>
+
+<style>
+	.empty-state {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		min-height: 100svh;
+		margin: 0;
+		padding: max(22px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+		overflow: hidden;
+		background:
+			radial-gradient(circle at 72% 22%, rgba(98, 230, 221, 0.16), transparent 170px),
+			linear-gradient(180deg, #0d111d 0%, #080b14 54%, #050711 100%);
+		color: #f5f7fb;
+	}
+
+	.empty-state[hidden] {
+		display: none;
+	}
+
+	.empty-state::before {
+		content: '';
+		position: absolute;
+		inset: -20%;
+		background-image:
+			linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+		background-size: 42px 42px;
+		mask-image: radial-gradient(circle at 50% 42%, black, transparent 72%);
+		opacity: 0.45;
+		pointer-events: none;
+	}
+
+	.brand-row {
+		position: absolute;
+		left: 20px;
+		right: 20px;
+		top: max(18px, env(safe-area-inset-top));
+		z-index: 2;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+	}
+
+	.brand-row strong {
+		display: inline-flex;
+		align-items: center;
+		min-width: 0;
+		gap: 10px;
+		font-size: 15px;
+		font-weight: 850;
+	}
+
+	.brand-row strong span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.brand-row img {
+		flex: 0 0 auto;
+		border-radius: 8px;
+		box-shadow: 0 0 26px rgba(98, 230, 221, 0.22);
+	}
+
+	.brand-row > span {
+		display: inline-flex;
+		flex: 0 0 auto;
+		align-items: center;
+		min-height: 31px;
+		padding: 0 12px;
+		border: 1px solid rgba(231, 189, 98, 0.34);
+		border-radius: 999px;
+		background: rgba(231, 189, 98, 0.08);
+		color: #e7bd62;
+		font-size: 13px;
+		font-weight: 900;
+	}
+
+	h1 {
+		position: relative;
+		z-index: 1;
+		max-width: 340px;
+		margin: 0;
+		color: #f5f7fb;
+		font-size: 40px;
+		line-height: 1.08;
+		letter-spacing: 0;
+	}
+
+	p {
+		position: relative;
+		z-index: 1;
+		max-width: 340px;
+		margin: 18px 0 0;
+		color: rgba(214, 222, 233, 0.72);
+		font-size: 17px;
+		line-height: 1.8;
+	}
+
+	.secondary {
+		position: relative;
+		z-index: 1;
+		align-self: flex-start;
+		min-height: 42px;
+		margin-top: 30px;
+		padding: 0 16px;
+		border: 1px solid rgba(255, 255, 255, 0.14);
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.05);
+		color: rgba(214, 222, 233, 0.6);
+	}
+</style>

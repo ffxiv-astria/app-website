@@ -1,0 +1,139 @@
+<div class="crystal-scene" aria-hidden="true">
+	<div class="orbit orbit-one"></div>
+	<div class="orbit orbit-two"></div>
+	<div class="crystal">
+		<span></span>
+	</div>
+	<div class="node node-a"></div>
+	<div class="node node-b"></div>
+	<div class="node node-c"></div>
+	<div class="route route-a"></div>
+	<div class="route route-b"></div>
+</div>
+
+<style>
+	.crystal-scene {
+		position: relative;
+		min-height: 420px;
+		border: 1px solid var(--line);
+		border-radius: 8px;
+		overflow: hidden;
+		background:
+			radial-gradient(circle at 50% 45%, rgba(98, 230, 221, 0.22), transparent 12rem),
+			radial-gradient(circle at 22% 20%, rgba(231, 189, 98, 0.12), transparent 13rem),
+			linear-gradient(145deg, rgba(22, 28, 42, 0.92), rgba(9, 12, 20, 0.92));
+		box-shadow: var(--shadow);
+	}
+
+	.crystal-scene::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image:
+			radial-gradient(circle, rgba(255, 255, 255, 0.5) 0 1px, transparent 1.4px),
+			linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+		background-size: 82px 82px, 64px 64px, 64px 64px;
+		mask-image: radial-gradient(circle at 50% 44%, black, transparent 78%);
+		opacity: 0.5;
+	}
+
+	.crystal {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 118px;
+		height: 188px;
+		transform: translate(-50%, -50%) rotate(8deg);
+		clip-path: polygon(50% 0, 88% 24%, 72% 100%, 28% 100%, 12% 24%);
+		background:
+			linear-gradient(100deg, rgba(255, 255, 255, 0.96), rgba(98, 230, 221, 0.75) 36%, rgba(159, 140, 255, 0.55) 70%, rgba(231, 189, 98, 0.5)),
+			linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent);
+		box-shadow: 0 0 80px rgba(98, 230, 221, 0.36);
+	}
+
+	.crystal span {
+		position: absolute;
+		inset: 14px 44px 12px auto;
+		width: 1px;
+		background: rgba(255, 255, 255, 0.7);
+		transform: rotate(8deg);
+	}
+
+	.orbit,
+	.route {
+		position: absolute;
+		border: 1px solid rgba(98, 230, 221, 0.35);
+		border-radius: 50%;
+	}
+
+	.orbit-one {
+		inset: 90px 48px;
+		transform: rotate(-13deg);
+	}
+
+	.orbit-two {
+		inset: 132px 82px;
+		border-color: rgba(231, 189, 98, 0.32);
+		transform: rotate(19deg);
+	}
+
+	.route {
+		border-color: transparent;
+		border-top-color: rgba(231, 189, 98, 0.55);
+	}
+
+	.route-a {
+		width: 260px;
+		height: 112px;
+		left: 52px;
+		top: 102px;
+		transform: rotate(16deg);
+	}
+
+	.route-b {
+		width: 230px;
+		height: 100px;
+		right: 42px;
+		bottom: 96px;
+		border-top-color: rgba(98, 230, 221, 0.55);
+		transform: rotate(198deg);
+	}
+
+	.node {
+		position: absolute;
+		width: 12px;
+		height: 12px;
+		border: 2px solid rgba(255, 255, 255, 0.85);
+		border-radius: 50%;
+		background: var(--bg);
+		box-shadow: 0 0 24px rgba(98, 230, 221, 0.6);
+	}
+
+	.node-a {
+		left: 86px;
+		top: 158px;
+	}
+
+	.node-b {
+		right: 118px;
+		top: 112px;
+		border-color: var(--gold);
+	}
+
+	.node-c {
+		right: 84px;
+		bottom: 122px;
+	}
+
+	@media (max-width: 760px) {
+		.crystal-scene {
+			min-height: 300px;
+		}
+
+		.crystal {
+			width: 82px;
+			height: 132px;
+		}
+	}
+</style>

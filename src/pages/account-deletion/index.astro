@@ -1,0 +1,18 @@
+---
+import LegalShell from '../../components/LegalShell.astro';
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="账号注销 - Astria天穹" description="Astria天穹账号注销说明与入口。">
+	<LegalShell
+		title="账号注销"
+		description="这里会提供账号注销说明与入口。当前先保留审核可访问的页面结构。"
+		actionLabel="发送注销申请"
+		actionHref="mailto:support@astria.cxmeow.com?subject=Astria%E5%A4%A9%E7%A9%B9%E8%B4%A6%E5%8F%B7%E6%B3%A8%E9%94%80%E7%94%B3%E8%AF%B7"
+		items={[
+			'正式上线后，这里会说明注销前的数据影响、处理周期、身份核验方式和撤回条件。',
+			'用户可以通过页面入口联系支持邮箱提交申请，后续也可以替换为自助表单或 App 内深链。',
+			'注销流程页面不展示任何用户敏感信息，也不会要求用户在网页中输入游戏账号密码。',
+		]}
+	/>
+</Layout>
