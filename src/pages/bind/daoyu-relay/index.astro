@@ -1,0 +1,232 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout
+	title="叨鱼绑定中转 - Astria天穹"
+	description="Astria天穹叨鱼账号绑定二维码临时展示页。"
+>
+	<main class="relay-shell">
+		<section class="relay-panel" aria-live="polite">
+			<div class="brand">
+				<img src="/brand/astria-app-icon.png" alt="" />
+				<span>Astria天穹</span>
+			</div>
+
+			<div id="loading" class="state">
+				<div class="spinner" aria-hidden="true"></div>
+				<h1>正在读取临时二维码</h1>
+				<p>这个页面只用于显示一次叨鱼扫码内容。</p>
+			</div>
+
+			<div id="ready" class="state hidden">
+				<p class="eyebrow" id="channel-label">叨鱼扫码绑定</p>
+				<h1>请用本机叨鱼扫码</h1>
+				<div class="qr-frame">
+					<img id="qr-image" alt="叨鱼绑定二维码" />
+				</div>
+				<p class="hint">扫码确认后，回到 Astria App 等待绑定结果。</p>
+				<p class="timer" id="timer">5:00</p>
+			</div>
+
+			<div id="error" class="state hidden">
+				<h1>二维码不可用</h1>
+				<p id="error-message">请回到 Astria 重新获取。</p>
+			</div>
+		</section>
+	</main>
+</Layout>
+
+<script>
+	const ticket = new URLSearchParams(window.location.search).get('t') ?? '';
+	const loading = document.querySelector('#loading');
+	const ready = document.querySelector('#ready');
+	const error = document.querySelector('#error');
+	const errorMessage = document.querySelector('#error-message');
+	const qrImage = document.querySelector('#qr-image');
+	const channelLabel = document.querySelector('#channel-label');
+	const timer = document.querySelector('#timer');
+
+	function show(target) {
+		for (const node of [loading, ready, error]) {
+			node?.classList.toggle('hidden', node !== target);
+		}
+	}
+
+	function showError(message) {
+		if (errorMessage) errorMessage.textContent = message;
+		show(error);
+	}
+
+	function formatRemaining(ms) {
+		const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = String(totalSeconds % 60).padStart(2, '0');
+		return `${minutes}:${seconds}`;
+	}
+
+	function startCountdown(expiresAt) {
+		const expires = Date.parse(expiresAt);
+		if (!Number.isFinite(expires)) return;
+		const tick = () => {
+			const remaining = expires - Date.now();
+			if (timer) timer.textContent = formatRemaining(remaining);
+			if (remaining <= 0) {
+				showError('二维码已过期，请回到 Astria 重新获取。');
+				return;
+			}
+			window.setTimeout(tick, 1000);
+		};
+		tick();
+	}
+
+	async function loadRelay() {
+		if (!ticket) {
+			showError('链接缺少 ticket，请回到 Astria 重新获取。');
+			return;
+		}
+		try {
+			const response = await fetch(`https://ff14search.cxmeow.top/api/daoyu/relay/${encodeURIComponent(ticket)}`, {
+				cache: 'no-store',
+				headers: { Accept: 'application/json' },
+			});
+			if (!response.ok) {
+				let message = '二维码已过期，请回到 Astria 重新获取。';
+				try {
+					const body = await response.json();
+					if (typeof body?.message === 'string') message = body.message;
+				} catch {}
+				showError(message);
+				return;
+			}
+			const relay = await response.json();
+			if (!relay?.imageDataURL || !relay?.expiresAt) {
+				showError('二维码内容不完整，请回到 Astria 重新获取。');
+				return;
+			}
+			if (qrImage) qrImage.src = relay.imageDataURL;
+			if (channelLabel) {
+				channelLabel.textContent = relay.channel === 'pc' ? '叨鱼 PC 扫码绑定' : '叨鱼 Web 扫码绑定';
+			}
+			show(ready);
+			startCountdown(relay.expiresAt);
+		} catch {
+			showError('网络暂时不可用，请刷新页面或回到 Astria 重新获取。');
+		}
+	}
+
+	loadRelay();
+</script>
+
+<style>
+	.relay-shell {
+		display: grid;
+		min-height: 100svh;
+		place-items: center;
+		padding: 28px 18px;
+	}
+
+	.relay-panel {
+		width: min(460px, 100%);
+		padding: 26px;
+		border: 1px solid var(--line-strong);
+		border-radius: 8px;
+		background: rgba(11, 15, 24, 0.86);
+		box-shadow: var(--shadow);
+	}
+
+	.brand {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 26px;
+		color: var(--soft);
+		font-size: 14px;
+		font-weight: 700;
+	}
+
+	.brand img {
+		width: 28px;
+		height: 28px;
+		border-radius: 7px;
+	}
+
+	.state {
+		display: grid;
+		justify-items: center;
+		gap: 14px;
+		text-align: center;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	h1 {
+		margin: 0;
+		color: var(--text);
+		font-size: clamp(24px, 7vw, 32px);
+		line-height: 1.15;
+		letter-spacing: 0;
+	}
+
+	p {
+		margin: 0;
+		color: var(--muted);
+		font-size: 15px;
+		line-height: 1.7;
+	}
+
+	.eyebrow {
+		color: var(--gold);
+		font-size: 13px;
+		font-weight: 760;
+	}
+
+	.qr-frame {
+		display: grid;
+		width: min(280px, calc(100vw - 88px));
+		aspect-ratio: 1;
+		place-items: center;
+		padding: 14px;
+		border-radius: 8px;
+		background: #fff;
+	}
+
+	.qr-frame img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		image-rendering: pixelated;
+	}
+
+	.hint {
+		color: var(--soft);
+	}
+
+	.timer {
+		min-width: 72px;
+		padding: 5px 10px;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		color: var(--teal);
+		font-variant-numeric: tabular-nums;
+		font-weight: 760;
+	}
+
+	.spinner {
+		width: 34px;
+		height: 34px;
+		border: 3px solid rgba(255, 255, 255, 0.18);
+		border-top-color: var(--teal);
+		border-radius: 999px;
+		animation: spin 0.9s linear infinite;
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+</style>
