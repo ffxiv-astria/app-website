@@ -1,18 +1,533 @@
 ---
-import LegalShell from '../../components/LegalShell.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
 import Layout from '../../layouts/Layout.astro';
+
+const apiBase = (import.meta.env.PUBLIC_API_BASE_URL || 'https://ff14search.cxmeow.top/api').replace(/\/$/, '');
+const appleClientId = import.meta.env.PUBLIC_APPLE_CLIENT_ID || '';
+const appleRedirectUri =
+	import.meta.env.PUBLIC_APPLE_REDIRECT_URI ||
+	`${apiBase}/account-deletion/web/apple/callback`;
 ---
 
-<Layout title="账号注销 - Astria天穹" description="Astria天穹账号注销说明与入口。">
-	<LegalShell
-		title="账号注销"
-		description="这里会提供账号注销说明与入口。当前先保留审核可访问的页面结构。"
-		actionLabel="发送注销申请"
-		actionHref="mailto:support@astria.cxmeow.com?subject=Astria%E5%A4%A9%E7%A9%B9%E8%B4%A6%E5%8F%B7%E6%B3%A8%E9%94%80%E7%94%B3%E8%AF%B7"
-		items={[
-			'正式上线后，这里会说明注销前的数据影响、处理周期、身份核验方式和撤回条件。',
-			'用户可以通过页面入口联系支持邮箱提交申请，后续也可以替换为自助表单或 App 内深链。',
-			'注销流程页面不展示任何用户敏感信息，也不会要求用户在网页中输入游戏账号密码。',
-		]}
-	/>
+<Layout title="账号注销 - Astria天穹" description="验证 Astria 账号身份、查看数据影响并提交不可撤销的账号注销。">
+	<SiteHeader active="legal" />
+
+	<main class="deletion-page">
+		<header class="hero">
+			<p class="eyebrow">PRIVACY · ACCOUNT DELETION</p>
+			<h1>注销 Astria 账号</h1>
+			<p class="lede">
+				这是独立于 App 的自助注销入口。验证账号后，你可以先查看数据影响，再提交不可撤销的注销请求。
+				提交后账号会立即被冻结并退出所有设备，后台异步完成物理清除。
+			</p>
+		</header>
+
+		<section class="warning" aria-labelledby="warning-title">
+			<div>
+				<p class="section-label">提交前请确认</p>
+				<h2 id="warning-title">注销没有冷静期，也不能恢复</h2>
+			</div>
+			<ul>
+				<li>未公开内容、贴纸、图片、账号资料、会话、收藏和互动记录会删除。</li>
+				<li>已经公开发布的配装、清单、宏等只保留匿名结构化数据；自由文本和图片会删除，作者显示为“已注销用户”。</li>
+				<li>生产数据通常立即开始处理，并最迟在 30 日内完成；备份副本会在最长 90 日的备份轮换周期内清除。</li>
+				<li>Apple 授权若无法由服务端确认撤销，回执会提示你前往 Apple 账户设置手动移除 Astria。</li>
+			</ul>
+		</section>
+
+		<section class="flow-card" aria-labelledby="flow-title">
+			<div class="flow-heading">
+				<div>
+					<p class="section-label">SELF-SERVICE</p>
+					<h2 id="flow-title">验证并提交</h2>
+				</div>
+				<p id="step-label" class="step-label">第 1 步，共 3 步</p>
+			</div>
+
+			<div id="message" class="message" role="status" aria-live="polite" hidden></div>
+
+			<div id="verify-panel">
+				<div class="method-tabs" role="tablist" aria-label="身份验证方式">
+					<button id="email-tab" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="email-form" tabindex="0" data-method="email">邮箱验证码</button>
+					<button id="apple-tab" class="tab" type="button" role="tab" aria-selected="false" aria-controls="apple-panel" tabindex="-1" data-method="apple">通过 Apple 验证</button>
+				</div>
+
+				<form id="email-form" class="method-panel" role="tabpanel" aria-labelledby="email-tab">
+					<label for="email">账号邮箱</label>
+					<div class="field-row">
+						<input id="email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com" />
+						<button id="send-code" class="secondary" type="button">发送验证码</button>
+					</div>
+					<label for="code">6 位验证码</label>
+					<input id="code" name="code" inputmode="numeric" autocomplete="one-time-code" minlength="6" maxlength="6" required placeholder="000000" />
+					<button class="primary" type="submit">验证并查看影响</button>
+					<p class="hint">为避免泄露账号是否存在，无论邮箱是否已注册，发送请求都显示相同结果。</p>
+				</form>
+
+				<div id="apple-panel" class="method-panel" role="tabpanel" aria-labelledby="apple-tab" hidden>
+					<p>将打开 Apple 官方授权窗口。Astria 不会看到或保存你的 Apple 密码。</p>
+					<button id="apple-signin" class="apple-button" type="button" disabled>使用 Apple 账号验证</button>
+					<p id="apple-config-hint" class="hint">Apple Web 登录尚未配置，请改用账号邮箱验证。</p>
+				</div>
+			</div>
+
+			<div id="impact-panel" hidden>
+				<div class="impact-title">
+					<div>
+						<p class="section-label">DATA IMPACT</p>
+						<h3>该账号的数据影响</h3>
+					</div>
+					<button id="restart" class="text-button" type="button">重新验证</button>
+				</div>
+				<div id="impact-grid" class="impact-grid"></div>
+				<div class="retention-note">
+					<strong>公开内容处理规则</strong>
+					<p>只保留无法再关联到你的结构化数据；标题、说明、评论、宏聊天文本、图片等自由内容会被移除。</p>
+				</div>
+				<label class="confirm-label" for="confirmation">输入 <code>DELETE</code> 确认不可撤销注销</label>
+				<input id="confirmation" autocomplete="off" spellcheck="false" placeholder="DELETE" />
+				<button id="confirm-delete" class="danger" type="button" disabled>立即冻结账号并开始注销</button>
+			</div>
+
+			<div id="receipt-panel" hidden>
+				<p class="section-label">REQUEST RECEIVED</p>
+				<h3>注销请求已提交</h3>
+				<p>账号已被冻结。请保留本浏览器中的回执；回执仅用于查看处理状态，不包含邮箱或 Apple 标识。</p>
+				<div class="receipt-box">
+					<span>回执编号</span>
+					<code id="receipt-id"></code>
+				</div>
+				<div id="status-grid" class="status-grid"></div>
+				<div class="receipt-actions">
+					<button id="refresh-status" class="secondary" type="button">刷新处理状态</button>
+					<a href="https://account.apple.com/" target="_blank" rel="noreferrer">Apple 账户设置</a>
+				</div>
+			</div>
+		</section>
+
+		<footer class="help">
+			<p>无法完成自助验证或需要行使其他隐私权利？请联系 <a href="mailto:support@astria.cxmeow.com">support@astria.cxmeow.com</a>，我们通常在 15 个工作日内回复。</p>
+			<nav aria-label="相关法律文件">
+				<a href="/legal/privacy">隐私政策</a>
+				<a href="/legal/terms">服务条款</a>
+			</nav>
+		</footer>
+	</main>
+
+	<script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js" async></script>
+	<script is:inline define:vars={{ apiBase, appleClientId, appleRedirectUri }}>
+		const state = {
+			flowToken: '',
+			publicId: '',
+			receipt: '',
+		};
+		const $ = (selector) => document.querySelector(selector);
+		const message = $('#message');
+
+		function showMessage(text, kind = 'info') {
+			message.textContent = text;
+			message.dataset.kind = kind;
+			message.hidden = false;
+		}
+
+		function clearMessage() {
+			message.hidden = true;
+			message.textContent = '';
+		}
+
+		async function request(path, options = {}) {
+			let response;
+			try {
+				response = await fetch(`${apiBase}${path}`, {
+					...options,
+					headers: { 'content-type': 'application/json', ...(options.headers || {}) },
+				});
+			} catch (cause) {
+				const error = new Error('网络连接失败，请稍后重试');
+				error.cause = cause;
+				error.isNetworkError = true;
+				throw error;
+			}
+			const payload = await response.json().catch(() => ({}));
+			if (!response.ok) {
+				const detail = Array.isArray(payload.message) ? payload.message.join('；') : payload.message;
+				const error = new Error(detail || '请求失败，请稍后重试');
+				error.httpStatus = response.status;
+				throw error;
+			}
+			return payload;
+		}
+
+		function setBusy(button, busy, busyText = '处理中…') {
+			if (!button) return;
+			if (busy) {
+				button.dataset.label = button.textContent;
+				button.textContent = busyText;
+				button.disabled = true;
+			} else {
+				button.textContent = button.dataset.label || button.textContent;
+				button.disabled = false;
+			}
+		}
+
+		function presentImpact(result) {
+			state.flowToken = result.flowToken;
+			const counts = result.impact?.counts || {};
+			const entries = [
+				['配装', counts.gearsets || 0, counts.publicGearsets || 0],
+				['清单', counts.lists || 0, counts.publicLists || 0],
+				['宏', counts.macros || 0, counts.publicMacros || 0],
+				['论坛主题 / 回复', (counts.forumTopics || 0) + (counts.forumReplies || 0), null],
+				['图片资源', counts.assets || 0, null],
+			];
+			$('#impact-grid').innerHTML = entries.map(([label, total, published]) => `
+				<article><span>${label}</span><strong>${total}</strong>${published === null ? '' : `<small>其中公开 ${published}</small>`}</article>
+			`).join('');
+			$('#verify-panel').hidden = true;
+			$('#impact-panel').hidden = false;
+			$('#receipt-panel').hidden = true;
+			$('#step-label').textContent = '第 2 步，共 3 步';
+			clearMessage();
+		}
+
+		function statusLabel(value) {
+			return ({
+				pending: '等待处理', processing: '处理中', retrying: '自动重试中',
+				completed: '已完成', completed_with_action_required: '数据清除完成，需手动处理 Apple 授权', failed: '处理异常',
+				revoked: '已撤销', manual_required: '需手动撤销', not_required: '不适用',
+			})[value] || value || '等待处理';
+		}
+
+		function renderStatus(payload) {
+			const rows = [
+				['总体状态', statusLabel(payload.status)],
+				['数据清除', statusLabel(payload.dataErasureStatus)],
+				['图片清除', statusLabel(payload.assetPurgeStatus)],
+				['Apple 授权', statusLabel(payload.appleRevocationStatus)],
+			];
+			$('#status-grid').innerHTML = rows.map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`).join('');
+			if (payload.manualActionRequired) showMessage('数据清除已完成，但请前往 Apple 账户设置手动移除 Astria 授权。', 'warning');
+		}
+
+		function presentReceipt(publicId, receipt, initialStatus = 'pending') {
+			state.publicId = publicId;
+			state.receipt = receipt;
+			try {
+				localStorage.setItem(`astria-deletion:${publicId}`, receipt);
+			} catch {
+				showMessage('浏览器无法持久保存回执，请在关闭页面前抄录回执编号。', 'warning');
+			}
+			try {
+				history.replaceState(null, '', `?request=${encodeURIComponent(publicId)}`);
+			} catch {}
+			$('#receipt-id').textContent = publicId;
+			$('#verify-panel').hidden = true;
+			$('#impact-panel').hidden = true;
+			$('#receipt-panel').hidden = false;
+			$('#step-label').textContent = '第 3 步，共 3 步';
+			renderStatus({
+				status: initialStatus,
+				dataErasureStatus: 'pending',
+				assetPurgeStatus: 'pending',
+				appleRevocationStatus: 'pending',
+			});
+		}
+
+		async function refreshStatus() {
+			if (!state.publicId || !state.receipt) return;
+			const button = $('#refresh-status');
+			setBusy(button, true, '刷新中…');
+			try {
+				const payload = await request(`/account-deletion/status/${encodeURIComponent(state.publicId)}`, {
+					headers: { 'x-deletion-receipt': state.receipt },
+				});
+				renderStatus(payload);
+			} catch (error) {
+				showMessage(error.message, 'error');
+			} finally {
+				setBusy(button, false);
+			}
+		}
+
+		function selectMethod(tab, focus = false) {
+				document.querySelectorAll('[data-method]').forEach((item) => {
+					item.classList.toggle('active', item === tab);
+					item.setAttribute('aria-selected', item === tab ? 'true' : 'false');
+					item.tabIndex = item === tab ? 0 : -1;
+				});
+				$('#email-form').hidden = tab.dataset.method !== 'email';
+				$('#apple-panel').hidden = tab.dataset.method !== 'apple';
+				clearMessage();
+				if (focus) tab.focus();
+		}
+
+		document.querySelectorAll('[data-method]').forEach((tab) => {
+			tab.addEventListener('click', () => selectMethod(tab));
+			tab.addEventListener('keydown', (event) => {
+				if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+				event.preventDefault();
+				const target = tab.dataset.method === 'email' ? $('#apple-tab') : $('#email-tab');
+				selectMethod(target, true);
+			});
+		});
+
+		$('#send-code').addEventListener('click', async () => {
+			const email = $('#email').value.trim();
+			if (!email || !$('#email').checkValidity()) return $('#email').reportValidity();
+			const button = $('#send-code');
+			setBusy(button, true, '发送中…');
+			try {
+				await request('/account-deletion/web/email/send-code', { method: 'POST', body: JSON.stringify({ email }) });
+				showMessage('如果该邮箱已关联 Astria 账号，验证码已发送。', 'success');
+				let remaining = 60;
+				const timer = setInterval(() => {
+					remaining -= 1;
+					button.textContent = remaining > 0 ? `${remaining} 秒后重发` : '发送验证码';
+					button.disabled = remaining > 0;
+					if (remaining <= 0) clearInterval(timer);
+				}, 1000);
+			} catch (error) {
+				showMessage(error.message, 'error');
+				setBusy(button, false);
+			}
+		});
+
+		$('#email-form').addEventListener('submit', async (event) => {
+			event.preventDefault();
+			const button = event.submitter;
+			setBusy(button, true);
+			try {
+				const result = await request('/account-deletion/web/email/verify', {
+					method: 'POST',
+					body: JSON.stringify({ email: $('#email').value.trim(), code: $('#code').value.trim() }),
+				});
+				presentImpact(result);
+			} catch (error) {
+				showMessage(error.message, 'error');
+			} finally {
+				setBusy(button, false);
+			}
+		});
+
+		async function sha256(value) {
+			const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+			return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, '0')).join('');
+		}
+
+		function randomToken() {
+			const bytes = crypto.getRandomValues(new Uint8Array(32));
+			return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+		}
+
+		async function waitForApple() {
+			for (let i = 0; i < 50; i += 1) {
+				if (window.AppleID?.auth) return true;
+				await new Promise((resolve) => setTimeout(resolve, 100));
+			}
+			return false;
+		}
+
+		function waitForAppleCallback(expectedState) {
+			const expectedOrigin = new URL(apiBase).origin;
+			let timer;
+			let handler;
+			const promise = new Promise((resolve, reject) => {
+				handler = (event) => {
+					const payload = event.data;
+					if (
+						event.origin !== expectedOrigin ||
+						payload?.type !== 'astria-apple-account-deletion-callback' ||
+						payload.state !== expectedState
+					) return;
+					cleanup();
+					if (payload.error) {
+						const error = new Error(payload.error);
+						error.error = payload.error;
+						reject(error);
+					} else {
+						resolve({ id_token: payload.identityToken, code: payload.code });
+					}
+				};
+				window.addEventListener('message', handler);
+				timer = setTimeout(() => {
+					cleanup();
+					reject(new Error('Apple 授权等待超时'));
+				}, 120000);
+			});
+			function cleanup() {
+				if (handler) window.removeEventListener('message', handler);
+				if (timer) clearTimeout(timer);
+			}
+			return { promise, cleanup };
+		}
+
+		function appleAuthorization(response) {
+			return response?.authorization || response?.detail?.authorization || response;
+		}
+
+		if (appleClientId) {
+			waitForApple().then((ready) => {
+				$('#apple-signin').disabled = !ready;
+				$('#apple-config-hint').textContent = ready ? 'Apple 授权结果只用于本次账号核验和撤销授权。' : 'Apple 登录组件加载失败，请刷新或使用邮箱验证。';
+			});
+		}
+
+		$('#apple-signin').addEventListener('click', async () => {
+			const button = $('#apple-signin');
+			setBusy(button, true, '等待 Apple 授权…');
+			let callback;
+			try {
+				if (!appleClientId || !(await waitForApple())) throw new Error('Apple Web 登录尚未配置或加载失败');
+				const rawNonce = randomToken();
+				const oauthState = randomToken();
+				callback = waitForAppleCallback(oauthState);
+				window.AppleID.auth.init({
+					clientId: appleClientId,
+					redirectURI: appleRedirectUri,
+					state: oauthState,
+					nonce: await sha256(rawNonce),
+					usePopup: true,
+				});
+				const sdkResult = window.AppleID.auth.signIn().then(appleAuthorization);
+				const authorization = await Promise.race([sdkResult, callback.promise]);
+				if (!authorization?.id_token) throw new Error('Apple 授权响应不完整');
+				const result = await request('/account-deletion/web/apple/verify', {
+					method: 'POST',
+					body: JSON.stringify({
+						identityToken: authorization.id_token,
+						authorizationCode: authorization.code,
+						nonce: rawNonce,
+					}),
+				});
+				presentImpact(result);
+			} catch (error) {
+				const cancelled = ['popup_closed_by_user', 'user_cancelled_authorize'].includes(error.error);
+				showMessage(cancelled ? '已取消 Apple 验证。' : (error.message || 'Apple 验证失败'), 'error');
+			} finally {
+				callback?.cleanup();
+				setBusy(button, false);
+			}
+		});
+
+		$('#confirmation').addEventListener('input', (event) => {
+			$('#confirm-delete').disabled = event.target.value !== 'DELETE';
+		});
+
+		$('#confirm-delete').addEventListener('click', async () => {
+			if ($('#confirmation').value !== 'DELETE' || !state.flowToken) return;
+			const button = $('#confirm-delete');
+			setBusy(button, true, '正在冻结账号…');
+			const requestId = crypto.randomUUID();
+			const receipt = randomToken();
+			try {
+				localStorage.setItem(`astria-deletion:${requestId}`, receipt);
+			} catch {
+				showMessage('浏览器无法持久保存回执，提交后请立即抄录回执编号。', 'warning');
+			}
+			try {
+				const result = await request('/account-deletion/web/confirm', {
+					method: 'POST',
+					body: JSON.stringify({
+						flowToken: state.flowToken,
+						confirmation: 'DELETE',
+						requestId,
+						receipt,
+					}),
+				});
+				presentReceipt(result.publicId, result.receipt, result.status);
+				setTimeout(refreshStatus, 1200);
+			} catch (error) {
+				if (error.isNetworkError) {
+					presentReceipt(requestId, receipt, 'pending');
+					showMessage('提交结果暂时无法确认。回执已保留，请稍后点击“刷新处理状态”。', 'warning');
+				} else {
+					try { localStorage.removeItem(`astria-deletion:${requestId}`); } catch {}
+					showMessage(error.message, 'error');
+				}
+			} finally {
+				setBusy(button, false);
+			}
+		});
+
+		$('#restart').addEventListener('click', () => location.assign('/account-deletion'));
+		$('#refresh-status').addEventListener('click', refreshStatus);
+
+		const existingId = new URLSearchParams(location.search).get('request');
+		if (existingId) {
+			let existingReceipt;
+			try { existingReceipt = localStorage.getItem(`astria-deletion:${existingId}`); } catch {}
+			if (existingReceipt) {
+				presentReceipt(existingId, existingReceipt);
+				$('#step-label').textContent = '处理状态';
+				refreshStatus();
+			}
+		}
+	</script>
 </Layout>
+
+<style>
+	.deletion-page { width: min(1040px, calc(100% - 36px)); margin: 0 auto; padding: 72px 0 100px; }
+	.hero { max-width: 860px; }
+	.eyebrow, .section-label { margin: 0 0 14px; color: var(--gold); font-size: 12px; font-weight: 850; letter-spacing: .18em; }
+	h1 { margin: 0; font-size: clamp(44px, 7vw, 78px); line-height: 1; letter-spacing: -.045em; }
+	.lede { max-width: 800px; margin: 24px 0 0; color: var(--soft); font-size: 18px; line-height: 1.85; }
+	.warning, .flow-card { margin-top: 38px; border: 1px solid var(--line); border-radius: 18px; background: rgba(16, 21, 31, .82); box-shadow: var(--shadow); }
+	.warning { display: grid; grid-template-columns: minmax(240px, .8fr) 1.4fr; gap: 36px; padding: 30px; border-color: rgba(237, 124, 146, .35); }
+	.warning h2, .flow-heading h2 { margin: 0; font-size: 28px; }
+	.warning ul { margin: 0; padding-left: 20px; color: var(--soft); line-height: 1.75; }
+	.warning li + li { margin-top: 8px; }
+	.flow-card { padding: 32px; }
+	.flow-heading, .impact-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+	.step-label { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+	.message { margin: 22px 0 0; padding: 13px 15px; border: 1px solid var(--line); border-radius: 10px; color: var(--soft); background: rgba(98, 230, 221, .07); }
+	.message[data-kind='error'] { border-color: rgba(237, 124, 146, .55); background: rgba(237, 124, 146, .09); }
+	.message[data-kind='success'] { border-color: rgba(140, 227, 161, .45); }
+	.message[data-kind='warning'] { border-color: rgba(231, 189, 98, .45); }
+	.method-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 28px; padding: 5px; border-radius: 12px; background: rgba(255, 255, 255, .045); }
+	.tab { min-height: 42px; border: 0; border-radius: 9px; color: var(--muted); background: transparent; cursor: pointer; }
+	.tab.active { color: var(--text); background: var(--surface-strong); box-shadow: 0 5px 20px rgba(0,0,0,.18); }
+	.method-panel { display: grid; gap: 11px; max-width: 680px; margin-top: 26px; }
+	[hidden] { display: none !important; }
+	.method-panel label, .confirm-label { color: var(--soft); font-size: 14px; font-weight: 700; }
+	input { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 10px; outline: 0; color: var(--text); background: rgba(2, 5, 10, .55); }
+	input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(98, 230, 221, .1); }
+	.field-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+	button, .receipt-actions a { min-height: 46px; padding: 0 18px; border-radius: 10px; border: 1px solid transparent; font-weight: 760; cursor: pointer; }
+	button:disabled { cursor: not-allowed; opacity: .48; }
+	.primary { margin-top: 8px; background: linear-gradient(135deg, var(--teal), #b8fbf4); color: #071014; }
+	.secondary { border-color: var(--line-strong); color: var(--text); background: rgba(255,255,255,.06); }
+	.apple-button { color: white; background: #000; border-color: rgba(255,255,255,.38); }
+	.hint { margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+	#impact-panel, #receipt-panel { margin-top: 30px; }
+	.impact-title h3, #receipt-panel h3 { margin: 0; font-size: 27px; }
+	.text-button { min-height: auto; padding: 4px; border: 0; color: var(--teal); background: transparent; }
+	.impact-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 24px; }
+	.impact-grid article { min-height: 116px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.035); }
+	.impact-grid span, .impact-grid small { display: block; color: var(--muted); font-size: 12px; }
+	.impact-grid strong { display: block; margin: 12px 0 5px; font-size: 30px; }
+	.retention-note { margin: 20px 0 24px; padding: 18px; border-left: 3px solid var(--gold); background: rgba(231,189,98,.07); }
+	.retention-note p { margin: 7px 0 0; color: var(--soft); line-height: 1.65; }
+	.confirm-label { display: block; margin-bottom: 10px; }
+	.confirm-label code { color: var(--rose); }
+	.danger { width: 100%; margin-top: 12px; color: white; background: linear-gradient(135deg, #bd3552, #e55c76); }
+	.receipt-box { margin: 22px 0; padding: 16px; border: 1px dashed var(--line-strong); border-radius: 12px; }
+	.receipt-box span { display: block; margin-bottom: 8px; color: var(--muted); font-size: 12px; }
+	.receipt-box code { overflow-wrap: anywhere; color: var(--teal); }
+	.status-grid { display: grid; gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--line); }
+	.status-grid div { display: flex; justify-content: space-between; gap: 18px; padding: 14px 16px; background: #121722; }
+	.status-grid span { color: var(--muted); }
+	.receipt-actions { display: flex; align-items: center; gap: 14px; margin-top: 18px; }
+	.receipt-actions a { display: inline-flex; align-items: center; color: var(--teal); }
+	.help { display: flex; justify-content: space-between; gap: 36px; margin-top: 34px; padding: 22px 2px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 1.7; }
+	.help p { max-width: 700px; margin: 0; }
+	.help a { color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
+	.help nav { display: flex; gap: 18px; white-space: nowrap; }
+	@media (max-width: 760px) {
+		.deletion-page { width: min(100% - 28px, 1040px); padding-top: 48px; }
+		.warning { grid-template-columns: 1fr; gap: 20px; padding: 22px; }
+		.flow-card { padding: 22px; }
+		.field-row { grid-template-columns: 1fr; }
+		.impact-grid { grid-template-columns: repeat(2, 1fr); }
+		.help { flex-direction: column; gap: 18px; }
+	}
+</style>

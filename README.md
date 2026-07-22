@@ -16,7 +16,7 @@ https://astria.cxmeow.top
 
 - 官网首页、下载入口、功能介绍
 - 隐私政策、服务协议
-- 账号注销说明与入口
+- 账号注销说明、邮箱/Apple 身份验证、数据影响预览、提交与回执状态查询
 - 超域旅行年度回顾 Web 展示
 - App 内 WKWebView 使用的轻量回顾页面
 
@@ -48,6 +48,8 @@ Node.js 要求：
 | `/travel-annual-recap` | 历史兼容入口，跳转到 `/recap/travel` |
 
 年度回顾是 App 专属入口功能，首页和官网导航不主动指向它。
+
+账号注销页是独立浏览器入口，不通过 App 内嵌 WebView 承载。iOS 使用原生注销界面；两端共享同一组后端删除状态机和回执查询接口。
 
 ## 目录结构
 
@@ -333,7 +335,7 @@ configuration.userContentController.add(handler, name: "astriaRecap")
 建议 CSP 基线：
 
 ```http
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://appleid.cdn-apple.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://ff14search.cxmeow.top https://appleid.apple.com; frame-src https://appleid.apple.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://appleid.apple.com
 ```
 
 ## 维护提示
