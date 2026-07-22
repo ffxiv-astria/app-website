@@ -1,16 +1,1036 @@
 ---
-import LegalShell from '../../../components/LegalShell.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
 import Layout from '../../../layouts/Layout.astro';
+
+const effectiveDate = '2026年7月22日';
+
+const sections = [
+	{ id: 'scope', label: '适用范围与运营者' },
+	{ id: 'summary', label: '隐私要点' },
+	{ id: 'collection', label: '我们处理的信息' },
+	{ id: 'local-data', label: '本地数据与官方账号' },
+	{ id: 'permissions', label: '系统权限' },
+	{ id: 'use', label: '信息使用方式' },
+	{ id: 'sharing', label: '共享与第三方服务' },
+	{ id: 'public-and-admin', label: '公开内容与后台管理' },
+	{ id: 'retention', label: '存储、保留与删除' },
+	{ id: 'security', label: '安全保护' },
+	{ id: 'rights', label: '你的权利与选择' },
+	{ id: 'cross-border', label: '跨境处理' },
+	{ id: 'children', label: '未成年人保护' },
+	{ id: 'updates', label: '政策更新' },
+	{ id: 'contact', label: '联系我们' },
+];
 ---
 
-<Layout title="隐私政策 - Astria天穹" description="Astria天穹隐私政策。">
-	<LegalShell
-		title="隐私政策"
-		description="这里会承载 Astria天穹的正式隐私政策。当前先放置页面结构，便于域名上线、审核与后续文本替换。"
-		items={[
-			'我们会把正式政策拆成信息收集、使用目的、本地存储、第三方服务、用户权利和联系方式等章节。',
-			'涉及本地处理的数据会优先留在设备端，网页页面不会默认要求用户提交游戏账号密码。',
-			'正式文本上线前，这里只作为审核与用户访问的稳定占位页。',
-		]}
-	/>
+<Layout
+	title="隐私政策 - Astria天穹"
+	description="Astria天穹隐私政策，说明我们如何收集、使用、存储、共享及保护个人信息，以及用户如何行使相关权利。"
+>
+	<SiteHeader active="legal" />
+
+	<main class="privacy-page">
+		<header class="policy-hero">
+			<p class="eyebrow">LEGAL · PRIVACY</p>
+			<h1>Astria天穹隐私政策</h1>
+			<p class="lede">
+				本政策说明 Astria天穹在 Apple 与 Android 平台、官方网站及其配套服务中如何处理个人信息。
+				我们只处理实现功能、保障安全和提供支持所必需的信息，不出售个人信息，也不进行广告追踪。
+			</p>
+
+			<div class="policy-meta" aria-label="政策基本信息">
+				<div>
+					<span>生效日期</span>
+					<strong>{effectiveDate}</strong>
+				</div>
+				<div>
+					<span>最近更新</span>
+					<strong>{effectiveDate}</strong>
+				</div>
+				<div>
+					<span>适用平台</span>
+					<strong>Apple · Android · Web</strong>
+				</div>
+				<div>
+					<span>隐私联系</span>
+					<a href="mailto:support@astria.cxmeow.com">support@astria.cxmeow.com</a>
+				</div>
+			</div>
+		</header>
+
+		<div class="important-note" role="note">
+			<strong>请特别注意</strong>
+			<p>
+				叨鱼、水晶通讯录等官方账号凭据与登录状态默认加密保存在你的设备中，不会保存到 Astria
+				服务器。只有在你启用相关功能时，App 才会按照你的操作向对应的游戏官方服务发送必要信息。
+			</p>
+		</div>
+
+		<div class="policy-layout">
+			<aside class="toc" aria-label="隐私政策目录">
+				<p>目录</p>
+				<nav>
+					{sections.map((section, index) => (
+						<a href={`#${section.id}`}>
+							<span>{String(index + 1).padStart(2, '0')}</span>
+							{section.label}
+						</a>
+					))}
+				</nav>
+			</aside>
+
+			<article class="policy-content">
+				<section id="scope">
+					<p class="section-number">01</p>
+					<h2>适用范围与运营者</h2>
+					<p>
+						本政策适用于 Astria天穹（以下简称“Astria”）的 iOS、iPadOS、macOS 与 Android
+						客户端、Astria 官方网站，以及为上述产品提供账号、内容、通知、反馈和数据查询能力的配套服务。
+					</p>
+					<p>
+						本政策中的“我们”指 Astria天穹的开发者及运营者。现阶段以
+						<a href="mailto:support@astria.cxmeow.com">support@astria.cxmeow.com</a>
+						作为个人信息保护与用户支持联系渠道。
+					</p>
+					<p>
+						部分功能会连接 Apple、Google、盛趣游戏、叨鱼、水晶通讯录或社区游戏数据服务。
+						这些第三方独立提供的产品与页面受其各自的服务条款和隐私政策约束，本政策仅说明 Astria
+						一侧的处理活动。
+					</p>
+				</section>
+
+				<section id="summary">
+					<p class="section-number">02</p>
+					<h2>隐私要点</h2>
+					<div class="summary-grid">
+						<article>
+							<span>最小必要</span>
+							<strong>不要求真实姓名或游戏密码</strong>
+							<p>游客可以使用大部分只读查询；账号功能只收集完成注册、同步和安全控制所需的信息。</p>
+						</article>
+						<article>
+							<span>本地优先</span>
+							<strong>敏感官方凭据留在设备</strong>
+							<p>叨鱼及水晶通讯录凭据使用 Apple 钥匙串或 Android Keystore 保护，并与普通偏好分开保存。</p>
+						</article>
+						<article>
+							<span>不做追踪</span>
+							<strong>无广告、无跨 App 跟踪</strong>
+							<p>当前版本不启用行为分析或崩溃采集服务，不使用广告标识符建立用户画像。</p>
+						</article>
+						<article>
+							<span>由你控制</span>
+							<strong>可更正、撤回与删除</strong>
+							<p>你可以管理公开内容和通知，并可通过账号注销入口请求删除账号及关联信息。</p>
+						</article>
+					</div>
+				</section>
+
+				<section id="collection">
+					<p class="section-number">03</p>
+					<h2>我们处理的信息</h2>
+					<p>
+						具体处理范围取决于你使用的功能。未登录或未启用某项功能时，我们不会因为该功能而要求你提供对应信息。
+					</p>
+
+					<div class="data-list" aria-label="个人信息处理清单">
+						<article>
+							<div class="data-heading">
+								<span>账号与身份</span>
+								<strong>注册、登录、找回与账号安全</strong>
+							</div>
+							<p>
+								邮箱地址、邮箱验证码、加密传输的密码、Astria 用户 ID、登录方式、会话状态与登录时间。
+								密码在服务器端以不可逆散列形式保存，我们不保存明文密码。
+							</p>
+							<p>
+								使用“通过 Apple 登录”时，我们会处理 Apple 提供的身份令牌、授权码、账号唯一标识，以及你授权提供的姓名和邮箱地址（可能是 Apple
+								中继邮箱）。账号若曾通过其他 Astria 关联客户端创建或绑定，相关平台身份标识也可能作为共享账号的一部分保留。
+							</p>
+						</article>
+
+						<article>
+							<div class="data-heading">
+								<span>资料与联系方式</span>
+								<strong>展示个人资料与回复支持请求</strong>
+							</div>
+							<p>
+								你主动设置的昵称、头像，以及提交反馈时填写的可选联系方式。头像和反馈附件只有在你明确选择并提交后才会上传。
+							</p>
+						</article>
+
+						<article>
+							<div class="data-heading">
+								<span>功能输入与游戏公开信息</span>
+								<strong>提供查询、同步、提醒和个性化工具</strong>
+							</div>
+							<p>
+								你输入或选择的角色名、游戏服务器、道具、副本、房屋与市场查询条件、搜索关键词、角色公开战绩、默认角色及历史角色配置、收藏状态、房屋监测条件、通知偏好等。
+							</p>
+							<p>
+								角色名、服务器、公开战绩和市场成交角色名可能本来就来源于游戏官方或社区公开数据。若你将其保存到账号，我们会把对应配置与 Astria
+								账号关联。
+							</p>
+						</article>
+
+						<article>
+							<div class="data-heading">
+								<span>用户创建与互动内容</span>
+								<strong>保存、发布、分享和内容治理</strong>
+							</div>
+							<p>
+								你创建的配装、清单、宏、论坛主题与回复、图片、便签或短评、点赞、投票、收藏、举报及举报说明；幻卡和青魔法收集进度；战利品分配团队名称、成员显示名、职业、需求、备注与分配记录等。
+							</p>
+							<p>
+								只有你主动设为公开或主动分享的内容才会通过公共广场、论坛或分享链接展示。私有分享链接的持有者可能能够访问相应内容，请谨慎转发。
+							</p>
+						</article>
+
+						<article>
+							<div class="data-heading">
+								<span>反馈与客服</span>
+								<strong>处理问题、申诉与安全事件</strong>
+							</div>
+							<p>
+								反馈分类、标题、正文、附件、可选联系方式、相关页面，以及你选择随反馈提交的 App
+								版本、操作系统、设备型号、网络类型和诊断上下文；还包括你与管理员之间的后续沟通记录。
+							</p>
+						</article>
+
+						<article>
+							<div class="data-heading">
+								<span>设备、网络与日志</span>
+								<strong>会话管理、推送、安全与故障排查</strong>
+							</div>
+							<p>
+								App 安装标识、客户端平台、设备名称与型号、操作系统和 App
+								版本、语言、时区、通知授权状态、后台刷新能力、IP 地址、User-Agent、请求时间与接口路径，以及请求结果、耗时和错误信息。
+							</p>
+							<p>
+								当你启用远程通知时，还会处理 APNs 设备令牌，或 Firebase 安装标识及 FCM
+								推送标识，并将其与当前账号、安装和通知偏好关联。
+							</p>
+						</article>
+					</div>
+				</section>
+
+				<section id="local-data">
+					<p class="section-number">04</p>
+					<h2>仅在设备本地处理的数据与官方账号功能</h2>
+					<p>
+						Astria 的叨鱼、水晶通讯录、积分商城和超域旅行等能力连接盛趣游戏及其官方服务。为了降低敏感凭据暴露风险，我们采用本地优先的处理方式：
+					</p>
+					<ul>
+						<li>
+							账号元数据、已选子账号、角色绑定、旅行订单与签到结果等功能数据通常保存在 App
+							本地数据库或偏好存储中。
+						</li>
+						<li>
+							官方服务会话、Cookie 与令牌等秘密信息单独保存在 Apple 钥匙串或由 Android
+							Keystore 加密的应用专属存储中，并从 Android 云备份中排除。
+						</li>
+						<li>
+							当你查询个人数据、签到、发布官方内容或执行旅行操作时，App
+							会将必要的凭据与操作参数直接发送给相应官方接口。Astria 自有后台不长期保存这些官方账号凭据。
+						</li>
+						<li>
+							同设备扫码不便时，你可以主动使用二维码中转。二维码内容会在 Astria
+							服务端临时保存并通过一次性链接展示，链接和内容约 5 分钟后失效。
+						</li>
+						<li>
+							超域旅行年度回顾由 App 在本地读取和统计旅行记录，再把裁剪后的展示数据注入 Astria
+							网页视图。网页不会将回顾数据上传到 Astria 服务器；分享图也在设备或浏览器中生成。只有你执行系统分享或保存时，数据才会按你的选择离开 App。
+						</li>
+					</ul>
+					<p>
+						Astria 不要求你提供游戏账号密码。请只使用 App 提供的官方扫码或会话绑定方式，不要通过反馈、论坛或邮件发送密码、验证码、Cookie、令牌等秘密信息。
+					</p>
+				</section>
+
+				<section id="permissions">
+					<p class="section-number">05</p>
+					<h2>系统权限与敏感能力</h2>
+					<div class="permission-grid">
+						<article>
+							<strong>通知</strong>
+							<p>
+								用于系统公告、房屋监测、论坛互动、签到结果等你启用的提醒。拒绝或关闭权限不影响不依赖通知的功能。
+							</p>
+						</article>
+						<article>
+							<strong>照片选择器</strong>
+							<p>
+								用于选择头像、反馈或内容图片。Astria 使用系统选择器，只读取你明确选中的图片，不请求浏览整个照片库。
+							</p>
+						</article>
+						<article>
+							<strong>网络与后台任务</strong>
+							<p>
+								网络用于访问 Astria 与第三方数据服务；Android 的开机完成能力用于恢复你已配置的本地任务与组件，不读取通讯录、短信或通话记录。
+							</p>
+						</article>
+						<article>
+							<strong>当前未使用</strong>
+							<p>
+								当前版本不请求精确或模糊位置、通讯录、麦克风、相机、健康数据、广告追踪或设备广告标识符权限。
+							</p>
+						</article>
+					</div>
+				</section>
+
+				<section id="use">
+					<p class="section-number">06</p>
+					<h2>我们如何使用信息</h2>
+					<p>我们仅在实现明确、合理且与你使用 Astria 直接相关的目的范围内处理信息：</p>
+					<ol>
+						<li>创建和维护账号，完成登录、身份关联、邮箱验证、密码重置、会话与设备管理；</li>
+						<li>提供查询、保存、同步、发布、分享、收藏、提醒和跨设备账号功能；</li>
+						<li>展示你主动公开的资料和内容，并进行内容安全检查、举报处理和社区治理；</li>
+						<li>向你发送必要的验证码、服务通知，以及你主动启用的系统或功能提醒；</li>
+						<li>回复反馈、处理账号与隐私请求，定位你报告的问题；</li>
+						<li>检测滥用、高频请求和异常登录，保护用户、服务与第三方数据源的安全；</li>
+						<li>以汇总或去标识化方式评估服务容量、稳定性和功能质量。</li>
+					</ol>
+					<div class="plain-statement">
+						<strong>当前数据实践</strong>
+						<p>
+							Astria 不展示第三方广告，不出售或出租个人信息，不将个人信息提供给数据经纪商，不跨 App
+							跟踪用户。当前客户端未启用行为分析或崩溃报告采集；如未来启用，我们会先评估必要性、更新本政策及应用商店隐私声明，并在法律要求时取得你的同意。
+						</p>
+					</div>
+				</section>
+
+				<section id="sharing">
+					<p class="section-number">07</p>
+					<h2>共享、委托处理与第三方服务</h2>
+					<p>
+						我们不会为了第三方自己的广告目的共享个人信息。仅在提供你选择的功能、履行法律义务或保护安全确有必要时，才会向以下接收方提供最小范围的信息。
+					</p>
+
+					<div class="third-party-list">
+						<article>
+							<div>
+								<strong>Apple</strong>
+								<a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noreferrer">隐私政策</a>
+							</div>
+							<p>“通过 Apple 登录”所需的授权信息，以及通过 APNs 发送通知所需的设备令牌、App 标识和通知内容。</p>
+						</article>
+
+						<article>
+							<div>
+								<strong>Google Firebase</strong>
+								<a href="https://firebase.google.com/support/privacy" target="_blank" rel="noreferrer">隐私与安全说明</a>
+							</div>
+							<p>Android 端使用 Firebase Cloud Messaging。Google 可能处理 Firebase 安装标识、推送令牌、IP、设备和服务技术信息，以建立和投递通知。</p>
+						</article>
+
+						<article>
+							<div>
+								<strong>Resend</strong>
+								<a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noreferrer">隐私政策</a>
+							</div>
+							<p>用于发送注册、密码重置等验证码或必要账号邮件，可能处理收件邮箱、邮件内容和投递元数据。</p>
+						</article>
+
+						<article>
+							<div>
+								<strong>盛趣游戏、叨鱼与水晶通讯录相关服务</strong>
+								<a href="https://xyx.web.sdo.com/web5/newsCon.aspx?cid=2&id=333973" target="_blank" rel="noreferrer">盛趣游戏隐私政策</a>
+							</div>
+							<p>
+								当你使用绑定、个人数据、签到、超域旅行、招募、幻化或官方论坛功能时，相应官方服务会接收会话凭据、账号或角色标识、查询条件及你提交的操作内容。图片发布可能直接上传到官方服务指定的腾讯云对象存储。
+							</p>
+						</article>
+
+						<article>
+							<div>
+								<strong>游戏资料与社区数据服务</strong>
+							</div>
+							<p>
+								Astria 会根据功能直接访问或通过自有后台代理访问 XIVAPI、Garland Tools、Universalis、Remote Party Finder、房屋数据与 Sumemo
+								等数据源。对应服务可能接收角色名、服务器、道具、副本等查询参数，以及网络请求必需的 IP 和 User-Agent。
+							</p>
+							<p>
+								为遵守上游限流和防滥用规则，部分代理查询会向相应数据服务转发客户端 IP 与 User-Agent。请避免在查询框中输入与查询无关的个人或敏感信息。
+							</p>
+						</article>
+					</div>
+
+					<p>
+						我们会要求代表我们处理信息的服务提供方仅为约定目的使用信息，并提供不低于本政策及适用法律要求的保护。第三方独立决定其数据处理目的时，请同时阅读其隐私政策。
+					</p>
+					<p>
+						此外，我们可能在取得你的单独同意、响应有权机关的合法要求、履行适用法律义务，或为保护用户与公众的生命、财产和网络安全所必要时提供相关信息。若发生合并、转让或运营主体变更，我们会要求承接方继续受本政策约束，并依法通知你。
+					</p>
+				</section>
+
+				<section id="public-and-admin">
+					<p class="section-number">08</p>
+					<h2>公开内容与后台管理</h2>
+					<h3>公开与分享</h3>
+					<p>
+						当你主动发布论坛内容、公开配装或宏、使用公开清单或分享链接时，昵称、头像、内容、图片、发布时间和互动数据可能被其他用户看到、复制或转发。删除原内容后，我们无法控制其他用户在 Astria
+						之外已保存的副本。发布前请勿包含真实联系方式、账号凭据或他人的个人信息。
+					</p>
+
+					<h3>后台访问边界</h3>
+					<p>
+						经授权的管理员会根据岗位与权限，在提供客服、账号安全、通知投递、内容审核和系统运维所必需的范围内访问相关数据。后台目前可能展示或处理：
+					</p>
+					<ul>
+						<li>用户 ID、昵称、头像、邮箱及平台身份关联状态；</li>
+						<li>登录记录、会话、安装设备、通知端点和通知投递状态；</li>
+						<li>用户发布内容、图片、互动、举报、审核记录和反馈工单；</li>
+						<li>查询与安全日志、账号状态、功能权限及管理员操作审计记录。</li>
+					</ul>
+					<p>
+						管理员无法通过后台查看明文密码、完整刷新令牌或保存在设备端的叨鱼、水晶通讯录官方凭据。我们通过权限控制和审计记录限制、追踪后台操作。
+					</p>
+				</section>
+
+				<section id="retention">
+					<p class="section-number">09</p>
+					<h2>存储地点、保留期限与删除</h2>
+					<p>Astria 自有服务器中的主要账号与业务数据存储在中国大陆。我们按照以下规则保留信息：</p>
+					<div class="retention-list">
+						<div>
+							<strong>账号与业务数据</strong>
+							<p>在账号存续期间或实现相应功能所需期限内保留；你删除单项内容或注销账号后，按本节规则处理。</p>
+						</div>
+						<div>
+							<strong>短期流程数据</strong>
+							<p>邮箱验证码、Apple 首次登录流程和二维码中转票据只在完成验证所需的短时间内有效；二维码中转内容约 5 分钟后失效。</p>
+						</div>
+						<div>
+							<strong>日志与安全记录</strong>
+							<p>仅在排查故障、防范滥用、保护账号和履行法律义务所需的合理期限内保留，之后删除或去标识化。</p>
+						</div>
+						<div>
+							<strong>设备本地数据</strong>
+							<p>在你删除相应账号配置、清除 App 数据或卸载 App 时移除；系统备份或钥匙串行为也可能受你的系统设置影响。</p>
+						</div>
+					</div>
+
+					<h3>账号注销与删除时限</h3>
+					<p>
+						你可以访问<a href="/account-deletion/">账号注销页面</a>，或向
+						<a href="mailto:support@astria.cxmeow.com?subject=Astria%E5%A4%A9%E7%A9%B9%E8%B4%A6%E5%8F%B7%E6%B3%A8%E9%94%80%E7%94%B3%E8%AF%B7">support@astria.cxmeow.com</a>
+						发送申请。为防止他人冒用，我们可能要求你通过已绑定邮箱或其他合理方式验证账号归属，但不会要求你发送密码或官方账号令牌。
+					</p>
+					<p>
+						我们将在收到有效申请后的 15 个工作日内完成核验和处理答复，并在核验通过后的 30
+						日内删除或匿名化生产系统中的账号及关联个人信息。备份中的残留副本会在最多 90
+						日的滚动周期内清除，期间不会恢复用于日常业务。
+					</p>
+					<p>
+						若法律法规、争议处理、安全与反欺诈义务要求保留特定记录，我们会仅保留必要范围并限制其他用途。无需继续保留时，我们会删除或匿名化相关信息。账号注销不会自动删除由第三方独立保存的信息，你可依据对应第三方政策向其行使权利。
+					</p>
+				</section>
+
+				<section id="security">
+					<p class="section-number">10</p>
+					<h2>安全保护</h2>
+					<p>我们采取与信息性质及风险相匹配的技术和管理措施，包括：</p>
+					<ul>
+						<li>生产网络请求使用 HTTPS 等传输加密措施；</li>
+						<li>密码不可逆散列保存，刷新令牌和部分设备标识以散列或加密方式保存；</li>
+						<li>敏感官方凭据使用 Apple 钥匙串或 Android Keystore 保护，并与普通数据分离；</li>
+						<li>后台采用账号、角色和权限控制，对关键配置与管理操作保留审计记录；</li>
+						<li>限制数据访问范围，并采取日志监测、速率限制、备份和恢复措施。</li>
+					</ul>
+					<p>
+						互联网传输和电子存储不存在绝对安全。若发生可能影响你权益的个人信息安全事件，我们会按照适用法律采取补救措施，并通过 App、邮件、网站公告或其他合理方式通知你。
+					</p>
+				</section>
+
+				<section id="rights">
+					<p class="section-number">11</p>
+					<h2>你的权利与选择</h2>
+					<p>在适用法律允许的范围内，你可以行使以下权利：</p>
+					<ul>
+						<li><strong>查阅与更正：</strong>在个人资料、角色配置、设备管理等页面查看或更新相关信息；</li>
+						<li><strong>删除：</strong>删除你创建的内容、收藏、监测条件或本地官方账号配置，或请求注销整个账号；</li>
+						<li><strong>撤回同意：</strong>在 App 或系统设置中关闭通知，在功能设置中停用对应服务；撤回不影响撤回前处理的合法性；</li>
+						<li><strong>管理 Apple 授权：</strong>你可以在 Apple 账号设置中停止使用“通过 Apple 登录”，但该操作本身不会删除 Astria 账号；</li>
+						<li><strong>复制、限制或解释：</strong>在适用法律规定的情形下，请求获取副本、限制处理或说明处理规则；</li>
+						<li><strong>投诉与申诉：</strong>对内容审核、账号处理或个人信息处理提出申诉。</li>
+					</ul>
+					<p>
+						你可以通过本政策末尾邮箱提交请求。我们可能为保护账号安全而核验身份，并将在 15
+						个工作日内答复。若请求明显重复、超出合理范围，或法律允许拒绝，我们会说明原因。
+					</p>
+				</section>
+
+				<section id="cross-border">
+					<p class="section-number">12</p>
+					<h2>跨境处理</h2>
+					<p>
+						Astria 的主要账号与业务数据存储在中国大陆。由于 Apple、Google Firebase、Resend
+						及部分社区数据服务使用全球基础设施，你在使用相应功能时，必要的账号、设备、邮件、推送或查询信息可能在中国大陆以外处理。
+					</p>
+					<p>
+						我们会按照适用法律采取必要措施，包括限制传输范围、审查接收方保护能力、通过合同约束用途，并在法律要求时另行告知相关接收方、信息类型、目的和方式，取得单独同意或完成规定程序。
+					</p>
+				</section>
+
+				<section id="children">
+					<p class="section-number">13</p>
+					<h2>未成年人保护</h2>
+					<p>
+						Astria 是面向游戏玩家的工具服务，并非专门面向未满 14
+						周岁的儿童设计。未满 14 周岁的用户应在监护人阅读并同意本政策、提供必要指导后使用服务，不应独自发布真实身份或联系方式。
+					</p>
+					<p>
+						如果监护人认为儿童在未获适当同意的情况下向我们提供了个人信息，请通过本政策末尾邮箱联系。核实后，我们会停止相关处理并依法删除信息。
+					</p>
+				</section>
+
+				<section id="updates">
+					<p class="section-number">14</p>
+					<h2>政策更新</h2>
+					<p>
+						我们可能因功能、第三方服务、法律或安全实践变化更新本政策，并在本页面标明最近更新日期。若变更会对你的权利产生重大影响，我们会在生效前通过 App
+						内提示、网站公告、邮件或其他显著方式通知，并在法律要求时重新取得同意。
+					</p>
+					<p>我们也会同步检查并更新 App Store、Google Play 等应用商店中的数据收集声明。</p>
+				</section>
+
+				<section id="contact" class="contact-section">
+					<p class="section-number">15</p>
+					<h2>联系我们</h2>
+					<p>
+						如果你对本政策、个人信息处理或账号注销有疑问、意见、投诉或请求，请联系 Astria天穹开发者及运营者：
+					</p>
+					<a class="contact-card" href="mailto:support@astria.cxmeow.com">
+						<span>个人信息保护与用户支持邮箱</span>
+						<strong>support@astria.cxmeow.com</strong>
+						<small>我们通常会在收到有效请求后的 15 个工作日内答复。</small>
+					</a>
+				</section>
+			</article>
+		</div>
+	</main>
 </Layout>
+
+<style>
+	.privacy-page {
+		width: min(1180px, calc(100% - 36px));
+		margin: 0 auto;
+		padding: 68px 0 112px;
+	}
+
+	.policy-hero {
+		position: relative;
+		padding: 34px 0 46px;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.policy-hero::after {
+		content: '';
+		position: absolute;
+		top: -80px;
+		right: 2%;
+		width: 320px;
+		height: 320px;
+		border: 1px solid rgba(98, 230, 221, 0.14);
+		border-radius: 50%;
+		box-shadow:
+			0 0 0 34px rgba(159, 140, 255, 0.035),
+			0 0 0 78px rgba(231, 189, 98, 0.025);
+		pointer-events: none;
+	}
+
+	.eyebrow,
+	.section-number,
+	.toc > p {
+		margin: 0;
+		color: var(--gold);
+		font-size: 12px;
+		font-weight: 820;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.policy-hero h1 {
+		max-width: 850px;
+		margin: 18px 0 0;
+		font-size: clamp(42px, 7vw, 76px);
+		line-height: 1.02;
+		letter-spacing: -0.035em;
+	}
+
+	.lede {
+		max-width: 850px;
+		margin: 26px 0 0;
+		color: var(--soft);
+		font-size: clamp(17px, 2vw, 20px);
+		line-height: 1.85;
+	}
+
+	.policy-meta {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1px;
+		margin-top: 38px;
+		overflow: hidden;
+		border: 1px solid var(--line);
+		border-radius: 10px;
+		background: var(--line);
+	}
+
+	.policy-meta > div {
+		min-width: 0;
+		padding: 16px 18px;
+		background: rgba(11, 15, 24, 0.92);
+	}
+
+	.policy-meta span,
+	.policy-meta strong,
+	.policy-meta a {
+		display: block;
+	}
+
+	.policy-meta span {
+		color: var(--muted);
+		font-size: 12px;
+	}
+
+	.policy-meta strong,
+	.policy-meta a {
+		margin-top: 7px;
+		font-size: 14px;
+		font-weight: 720;
+		line-height: 1.45;
+		word-break: break-word;
+	}
+
+	.policy-meta a,
+	.policy-content a {
+		color: var(--teal);
+		text-decoration: underline;
+		text-decoration-color: rgba(98, 230, 221, 0.38);
+		text-underline-offset: 3px;
+	}
+
+	.important-note {
+		display: grid;
+		grid-template-columns: 160px minmax(0, 1fr);
+		gap: 24px;
+		margin-top: 24px;
+		padding: 22px;
+		border: 1px solid rgba(98, 230, 221, 0.34);
+		border-radius: 10px;
+		background: linear-gradient(135deg, rgba(98, 230, 221, 0.095), rgba(159, 140, 255, 0.055));
+	}
+
+	.important-note strong {
+		color: var(--teal);
+		font-size: 14px;
+	}
+
+	.important-note p {
+		margin: 0;
+		color: var(--soft);
+		font-size: 15px;
+		line-height: 1.78;
+	}
+
+	.policy-layout {
+		display: grid;
+		grid-template-columns: 220px minmax(0, 820px);
+		gap: clamp(44px, 7vw, 92px);
+		align-items: start;
+		justify-content: space-between;
+		margin-top: 62px;
+	}
+
+	.toc {
+		position: sticky;
+		top: 104px;
+	}
+
+	.toc nav {
+		display: grid;
+		gap: 2px;
+		margin-top: 14px;
+	}
+
+	.toc a {
+		display: grid;
+		grid-template-columns: 28px 1fr;
+		gap: 7px;
+		align-items: baseline;
+		padding: 7px 8px;
+		border-radius: 6px;
+		color: var(--muted);
+		font-size: 12px;
+		line-height: 1.35;
+	}
+
+	.toc a span {
+		color: rgba(231, 189, 98, 0.64);
+		font-size: 10px;
+		font-weight: 800;
+	}
+
+	.toc a:hover,
+	.toc a:focus-visible {
+		background: rgba(255, 255, 255, 0.06);
+		color: var(--text);
+	}
+
+	.policy-content > section {
+		scroll-margin-top: 104px;
+		padding: 0 0 62px;
+	}
+
+	.policy-content > section + section {
+		padding-top: 62px;
+		border-top: 1px solid var(--line);
+	}
+
+	.policy-content h2 {
+		margin: 10px 0 24px;
+		font-size: clamp(28px, 4vw, 42px);
+		line-height: 1.16;
+		letter-spacing: -0.025em;
+	}
+
+	.policy-content h3 {
+		margin: 34px 0 12px;
+		font-size: 20px;
+		line-height: 1.4;
+	}
+
+	.policy-content p,
+	.policy-content li {
+		color: var(--soft);
+		font-size: 15px;
+		line-height: 1.9;
+	}
+
+	.policy-content p {
+		margin: 0;
+	}
+
+	.policy-content p + p {
+		margin-top: 16px;
+	}
+
+	.policy-content ul,
+	.policy-content ol {
+		display: grid;
+		gap: 8px;
+		margin: 20px 0 0;
+		padding-left: 24px;
+	}
+
+	.policy-content li::marker {
+		color: var(--gold);
+		font-weight: 760;
+	}
+
+	.summary-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+		margin-top: 28px;
+	}
+
+	.summary-grid article,
+	.permission-grid article {
+		padding: 20px;
+		border: 1px solid var(--line);
+		border-radius: 9px;
+		background: rgba(255, 255, 255, 0.038);
+	}
+
+	.summary-grid span {
+		display: block;
+		color: var(--gold);
+		font-size: 11px;
+		font-weight: 820;
+		letter-spacing: 0.1em;
+	}
+
+	.summary-grid strong {
+		display: block;
+		margin-top: 8px;
+		font-size: 17px;
+		line-height: 1.45;
+	}
+
+	.summary-grid p,
+	.permission-grid p {
+		margin-top: 10px;
+		color: var(--muted);
+		font-size: 13px;
+		line-height: 1.72;
+	}
+
+	.data-list,
+	.third-party-list,
+	.retention-list {
+		display: grid;
+		gap: 10px;
+		margin-top: 28px;
+	}
+
+	.data-list > article,
+	.third-party-list > article,
+	.retention-list > div {
+		padding: 22px;
+		border: 1px solid var(--line);
+		border-radius: 9px;
+		background: rgba(255, 255, 255, 0.032);
+	}
+
+	.data-heading {
+		display: grid;
+		grid-template-columns: 170px minmax(0, 1fr);
+		gap: 18px;
+		align-items: baseline;
+		margin-bottom: 12px;
+	}
+
+	.data-heading span {
+		color: var(--gold);
+		font-size: 12px;
+		font-weight: 800;
+	}
+
+	.data-heading strong {
+		font-size: 15px;
+		line-height: 1.5;
+	}
+
+	.data-list p,
+	.third-party-list p,
+	.retention-list p {
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.78;
+	}
+
+	.permission-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+		margin-top: 28px;
+	}
+
+	.permission-grid strong {
+		font-size: 16px;
+	}
+
+	.plain-statement {
+		margin-top: 28px;
+		padding: 22px;
+		border-left: 3px solid var(--teal);
+		background: rgba(98, 230, 221, 0.055);
+	}
+
+	.plain-statement strong {
+		font-size: 15px;
+	}
+
+	.plain-statement p {
+		margin-top: 8px;
+		font-size: 14px;
+	}
+
+	.third-party-list > article > div {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 16px;
+		margin-bottom: 10px;
+	}
+
+	.third-party-list strong {
+		font-size: 16px;
+	}
+
+	.third-party-list a {
+		font-size: 12px;
+		white-space: nowrap;
+	}
+
+	.retention-list {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.retention-list strong {
+		font-size: 15px;
+	}
+
+	.retention-list p {
+		margin-top: 8px;
+	}
+
+	.contact-section {
+		padding-bottom: 0 !important;
+	}
+
+	.contact-card {
+		display: grid;
+		gap: 8px;
+		margin-top: 24px;
+		padding: 24px;
+		border: 1px solid rgba(98, 230, 221, 0.36);
+		border-radius: 10px;
+		background: linear-gradient(135deg, rgba(98, 230, 221, 0.095), rgba(159, 140, 255, 0.055));
+		color: var(--text) !important;
+		text-decoration: none !important;
+	}
+
+	.contact-card span,
+	.contact-card small {
+		color: var(--muted);
+	}
+
+	.contact-card span {
+		font-size: 12px;
+		font-weight: 700;
+	}
+
+	.contact-card strong {
+		color: var(--teal);
+		font-size: clamp(18px, 3vw, 25px);
+		word-break: break-word;
+	}
+
+	.contact-card small {
+		font-size: 12px;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 960px) {
+		.policy-meta {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.policy-layout {
+			grid-template-columns: 1fr;
+			gap: 40px;
+		}
+
+		.toc {
+			position: static;
+			padding: 18px;
+			border: 1px solid var(--line);
+			border-radius: 9px;
+			background: rgba(255, 255, 255, 0.03);
+		}
+
+		.toc nav {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@media (max-width: 680px) {
+		.privacy-page {
+			width: min(100% - 28px, 1180px);
+			padding-top: 32px;
+		}
+
+		.policy-hero {
+			padding-top: 20px;
+		}
+
+		.policy-hero::after {
+			display: none;
+		}
+
+		.policy-meta,
+		.summary-grid,
+		.permission-grid,
+		.retention-list {
+			grid-template-columns: 1fr;
+		}
+
+		.important-note {
+			grid-template-columns: 1fr;
+			gap: 10px;
+		}
+
+		.toc nav {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.policy-content > section {
+			padding-bottom: 48px;
+		}
+
+		.policy-content > section + section {
+			padding-top: 48px;
+		}
+
+		.data-heading {
+			grid-template-columns: 1fr;
+			gap: 7px;
+		}
+
+		.third-party-list > article > div {
+			align-items: flex-start;
+			flex-direction: column;
+			gap: 5px;
+		}
+	}
+
+	@media (max-width: 420px) {
+		.toc nav {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media print {
+		:global(body) {
+			background: #fff !important;
+			color: #111 !important;
+		}
+
+		:global(.site-header),
+		.toc,
+		.policy-hero::after {
+			display: none !important;
+		}
+
+		.privacy-page {
+			width: 100%;
+			padding: 0;
+		}
+
+		.policy-layout {
+			display: block;
+		}
+
+		.policy-content p,
+		.policy-content li,
+		.lede,
+		.important-note p,
+		.data-list p,
+		.third-party-list p,
+		.retention-list p {
+			color: #222 !important;
+		}
+
+		.policy-meta,
+		.policy-meta > div,
+		.important-note,
+		.summary-grid article,
+		.permission-grid article,
+		.data-list > article,
+		.third-party-list > article,
+		.retention-list > div,
+		.contact-card {
+			border-color: #bbb !important;
+			background: #fff !important;
+			box-shadow: none !important;
+		}
+
+		.policy-content > section {
+			break-inside: avoid;
+		}
+	}
+</style>
