@@ -1,0 +1,114 @@
+---
+import SiteHeader from '../../../components/SiteHeader.astro';
+import Layout from '../../../layouts/Layout.astro';
+
+const effectiveDate = '2026年7月22日';
+---
+
+<Layout
+	title="法律与数据来源 - Astria天穹"
+	description="Astria天穹关于 FFXIV 素材、商标、第三方数据服务和非官方性质的声明。"
+>
+	<SiteHeader active="legal" />
+
+	<main class="legal-page">
+		<header class="hero">
+			<p class="eyebrow">LEGAL · MATERIALS · DATA SOURCES</p>
+			<h1>法律与数据来源</h1>
+			<p class="lede">
+				本页说明 Astria天穹使用 FFXIV 相关素材、商标和第三方数据服务时的权利边界与用户须知。
+			</p>
+			<p class="updated">最近更新：{effectiveDate}</p>
+		</header>
+
+		<div class="notice" role="note">
+			<strong>非官方声明</strong>
+			<p>
+				Astria 是面向 FFXIV 玩家提供信息查询与社区工具的独立、非官方应用；不隶属于、未获 Square Enix、盛趣游戏或其关联方赞助、认可或背书。
+			</p>
+		</div>
+
+		<article class="content">
+			<section>
+				<h2>FFXIV 素材与商标</h2>
+				<p>
+					部分页面可能展示 FFXIV 游戏、官方站点、官方社区或 Fan Kit 中的文字、截图、图片、视频、声音或标识。此类素材的权利归相应权利人所有；Astria 不主张其所有权。
+				</p>
+				<div class="quote-card">
+					<p>FINAL FANTASY is a registered trademark of Square Enix Holdings Co., Ltd.</p>
+					<p>© SQUARE ENIX</p>
+				</div>
+				<p>
+					FFXIV 素材仅在适用的
+					<a href="https://support.na.square-enix.com/rule.php?id=5382&amp;la=1&amp;tag=authc" target="_blank" rel="noreferrer">FINAL FANTASY XIV Materials Usage License</a>
+					允许的非商业社区用途范围内使用。我们不会将该许可解释为对 Astria、其数据服务或任何第三方接口的全面商业授权。
+				</p>
+				<ul>
+					<li>不得移除、遮挡或篡改素材中已有的版权或商标标识。</li>
+					<li>不得将 FFXIV 素材用于销售、广告变现或推广无关商业产品。</li>
+					<li>如权利人要求移除相关素材，我们会在核验后尽快处理。</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>第三方数据与服务</h2>
+				<p>
+					Astria 的不同功能会直接访问或经自有服务访问第三方数据服务，包括 FFXIV 官方服务、盛趣游戏/叨鱼/石之家相关服务、XIVAPI、Garland Tools、Universalis、Remote Party Finder、房屋数据及其他明确标示的数据来源。
+				</p>
+				<p>
+					各服务独立运营，并适用各自的服务条款、隐私政策、访问限制、署名要求、速率限制与可用性规则。Astria 对第三方内容的准确性、持续可用性或第三方页面作出的变更不作保证。
+				</p>
+				<div class="warning">
+					<strong>官方账号与接口功能</strong>
+					<p>
+						叨鱼、石之家及类似官方账号功能并非 Square Enix 或盛趣游戏向 Astria 提供的官方合作或背书。除非另有明确书面授权，请勿将本页或 FFXIV 素材许可视为对官方接口、账号凭据或服务数据的独立授权。
+					</p>
+				</div>
+			</section>
+
+			<section>
+				<h2>用户内容与侵权处理</h2>
+				<p>
+					用户发布的论坛、评论、图片、配装、宏和其他内容由发布者负责。请勿上传侵犯他人版权、商标、隐私或其他权利的内容，也不要发布游戏密码、验证码、Cookie、令牌或其他凭据。
+				</p>
+				<p>
+					若你是权利人或获授权代理人，并认为 Astria 上的内容侵权，请将作品说明、涉嫌侵权内容的准确链接、你的联系方式、权利证明及诚信声明发送至
+					<a href="mailto:support@astria.cxmeow.com?subject=Astria%20%E4%BE%B5%E6%9D%83%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82">support@astria.cxmeow.com</a>。我们会在核验后采取删除、限制访问或其他适当措施。
+				</p>
+			</section>
+
+			<section>
+				<h2>相关文件</h2>
+				<nav class="links" aria-label="相关法律文件">
+					<a href="/legal/privacy/">隐私政策</a>
+					<a href="/account-deletion/">账号注销</a>
+					<a href="https://support.na.square-enix.com/rule.php?id=5382&amp;la=1&amp;tag=authc" target="_blank" rel="noreferrer">FFXIV Materials Usage License</a>
+				</nav>
+			</section>
+		</article>
+	</main>
+</Layout>
+
+<style>
+	.legal-page { width: min(920px, calc(100% - 36px)); margin: 0 auto; padding: 52px 0 96px; }
+	.hero { max-width: 760px; }
+	.eyebrow, .updated { color: var(--teal); font-size: 13px; font-weight: 760; letter-spacing: 0.12em; }
+	.hero h1 { margin: 12px 0 0; font-size: clamp(42px, 7vw, 72px); line-height: 1; }
+	.lede { margin: 24px 0 0; color: var(--soft); font-size: 19px; line-height: 1.8; }
+	.updated { margin-top: 22px; color: var(--muted); letter-spacing: 0; }
+	.notice, .warning, .quote-card { margin-top: 36px; padding: 22px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); }
+	.notice strong, .warning strong { color: var(--gold); }
+	.notice p, .warning p { margin: 10px 0 0; color: var(--soft); line-height: 1.8; }
+	.content { margin-top: 52px; }
+	.content section { padding: 34px 0; border-top: 1px solid var(--line); }
+	.content h2 { margin: 0; font-size: 28px; }
+	.content p, .content li { color: var(--soft); line-height: 1.9; }
+	.content a { color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+	.quote-card { margin-top: 20px; border-left: 3px solid var(--teal); }
+	.quote-card p { margin: 0; color: var(--text); font-weight: 700; }
+	.quote-card p + p { margin-top: 6px; }
+	.warning { margin-top: 20px; border-color: rgba(231, 189, 98, 0.45); }
+	.links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+	.links a { padding: 10px 14px; border: 1px solid var(--line-strong); border-radius: 8px; text-decoration: none; }
+	@media (max-width: 600px) { .legal-page { width: min(100% - 28px, 920px); padding-top: 32px; } .lede { font-size: 17px; } }
+</style>
